@@ -8,7 +8,7 @@ function CustomerRole() {
   return (
     <div>
       <Header />
-      {outlet}
+      <div className="content-div">{outlet}</div>
       <Footer />
     </div>
   )

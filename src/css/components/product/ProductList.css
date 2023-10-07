@@ -1,0 +1,48 @@
+.product-list {
+  padding: 0 24px;
+  display: grid;
+  gap: 24px;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.product-list a {
+  text-decoration: none;
+}
+
+.product-list a:hover {
+  transform: translateX(0) translateY(-5px);
+}
+
+.product-item {
+  background-color: #FFF;
+  border-radius: 20px;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 1px 10px;
+}
+
+.product-item .prod-title {
+  padding: 0.5rem;
+  height: 90px;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.product-item .bid-info {
+  text-align: left;
+}
+
+.product-item .cur-bid {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.product-item .cur-bid::before {
+  content: '$';
+}
+
+.product-search {
+  padding: 2rem;
+  width: 60%;
+  margin: auto;
+}

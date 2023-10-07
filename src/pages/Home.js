@@ -1,8 +1,9 @@
+import ProductList from "../components/product/ProductList";
 
 function Home() {
   return (
     <div>
-      Home
+      <ProductList />
     </div>
   )
 }

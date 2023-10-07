@@ -1,0 +1,49 @@
+.product-detail-info .prod-title {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.product-detail-info .image {
+  height: 367px;
+}
+
+.product-detail-info .image-caption {
+  position: relative;
+  top: 50px;
+  height: 30px;
+}
+
+.product-bid .box {
+  border: 1px solid #d5d9dd;
+  box-shadow: 0 0 30px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content:start;
+  text-align: left;
+  gap: 1rem;
+}
+
+.product-bid .price::before {
+  content: '$';
+}
+
+.product-bid .current-bid {
+  color: #ff0000;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.product-bid .current-bid::before {
+  content: '$';
+}
+
+.product-bid .bid-due-date {
+  color: #ff0000;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.product-bid .btn-large {
+  width: 100%;
+}
