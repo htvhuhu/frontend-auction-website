@@ -4,8 +4,13 @@ import { useState } from 'react';
 import Footer from '../components/layout/Footer';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import {useAuth} from "../routes/AuthProvider";
+import {useNavigate} from "react-router-dom";
 
 function Login() {
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+
   const [error, setError] = useState();
   const [user, setUser] = useState({ email: '', password: '' });
 
@@ -15,7 +20,12 @@ function Login() {
 
   function submitHandler(e) {
     e.preventDefault();
-    alert("fffff")
+    // alert("fffff")
+
+    // fake login to test route first
+    // calling login API first then setToken
+    setToken("fake-token");
+    navigate("/authenticated", { replace: true });
 
     // handle login
   }
