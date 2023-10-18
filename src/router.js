@@ -12,61 +12,65 @@ import BidHistory from './pages/BidHistory';
 import ProductList from './pages/seller/ProductList';
 import CreateProduct from './pages/seller/CreateProduct';
 import MonthlyReport from './pages/seller/MonthlyReport';
+import Logout from './pages/Logout';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <CustomerRole/>,
-    errorElement: <Error/>,
+    element: <CustomerRole />,
+    errorElement: <Error />,
     children: [
       {
         path: '',
-        element: <Home/>
+        element: <Home />
       },
       {
         path: 'product/detail',
-        element: <ProductDetail/>
+        element: <ProductDetail />
       },
       {
         path: 'bid-history',
-        element: <BidHistory/>
+        element: <BidHistory />
       }
     ]
   },
   {
     path: '/seller/',
-    element: <SellerRole/>,
-    errorElement: <Error/>,
+    element: <SellerRole />,
+    errorElement: <Error />,
     children: [
       {
         path: 'products',
-        element: <ProductList/>
+        element: <ProductList />
       },
       {
         path: 'products/add',
-        element: <CreateProduct/>
+        element: <CreateProduct />
       },
       {
         path: 'products/report',
-        element: <MonthlyReport/>
+        element: <MonthlyReport />
       }
     ]
   },
   {
     path: '/register',
-    element: <RegisterUser/>
+    element: <RegisterUser />
   },
   {
     path: '/login',
-    element: <Login/>
+    element: <Login />
+  }, {
+    path: '/logout',
+    element: <Logout />
   },
   {
     path: '/forgot',
-    element: <ForgotPassword/>
+    element: <ForgotPassword />
   },
   {
     path: '/verify',
-    element: <VerifyCode/>
+    element: <VerifyCode />
   }
 ]);
 

@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import {useAuth} from "../routes/AuthProvider";
+import {AuthContext } from "../services/AuthProvider";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Footer from "../components/layout/Footer";
+import { useContext } from 'react';
 
 const Logout = () => {
-    const { setToken } = useAuth();
+    const { setToken } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogout = () => {

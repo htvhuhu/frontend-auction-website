@@ -1,14 +1,15 @@
 import DisplayMessage from '../components/layout/DisplayMessage';
 import "../css/pages/Login.css";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Footer from '../components/layout/Footer';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {useAuth} from "../routes/AuthProvider";
-import {useNavigate} from "react-router-dom";
+import { AuthContext } from "../services/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import userService from '../services/UserService';
 
 function Login() {
-  const { setToken } = useAuth();
+  const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [error, setError] = useState();
@@ -20,12 +21,13 @@ function Login() {
 
   function submitHandler(e) {
     e.preventDefault();
-    // alert("fffff")
+    userService.login(user).then(token => {
+      setToken(token);
+      navigate("/", { replace: true });
+    }).catch(error => {
+      setError(error.message);
+    });
 
-    // fake login to test route first
-    // calling login API first then setToken
-    setToken("fake-token");
-    navigate("/authenticated", { replace: true });
 
     // handle login
   }
