@@ -18,7 +18,7 @@ function ProductItem({ prod }) {
           <Card.Body>
             <Card.Title className='prod-title'>{prod.name}</Card.Title>
             <div className='bid-info'>
-              <div><b>Bids:</b></div>
+              <div><b>Bids:{prod.id}</b></div>
               <div><b>Watchers:</b></div>
               <div><b>Starting Price:</b></div>
               <div><b>Current Bid:</b></div>

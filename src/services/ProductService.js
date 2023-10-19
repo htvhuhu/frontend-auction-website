@@ -1,6 +1,16 @@
 import axios from 'axios';
+import Constant from '../util/constant';
 
 class ProductService {
+
+  async getActiveProducts(pageNumber) {
+    try {
+      const res = await axios.get(`/products?pageNumber=${pageNumber}&pageSize=${Constant.PRODUCT_PAGE_SIZE}`);
+      return res.data;
+    } catch (err) {
+      return null;
+    }
+  }
 
   getProducts() {
     let products = [];
