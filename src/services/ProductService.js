@@ -1,6 +1,15 @@
-import api from './HttpService';
+import http from './HttpService';
 
 class ProductService {
+
+  getData = async () => {
+    try {
+      const response = await http.get('/products');
+      return response.data;
+    } catch (error) {
+      throw new Error('Error fetching product data');
+    }
+  }
 
   getProducts() {
     let products = [];
@@ -65,11 +74,10 @@ class ProductService {
       images: ['/original (2).jpeg', '/original (1).jpeg', '/original.jpeg']
     };
   }
-  api_prefix = "/api/v1"
-  getProductsBySeller = () => api.get(this.api_prefix + '/seller/products');
-  addProduct = (product) => api.post(this.api_prefix + '/seller/products', product);
-  updateProduct = (id, product) => api.put(this.api_prefix + `/seller/products/${id}`, product);
-  deleteProduct = (id) => api.delete(this.api_prefix + `/seller/products/${id}`);
+  getProductsBySeller = () => http.get('/seller/products');
+  addProduct = (product) => http.post('/seller/products', product);
+  updateProduct = (id, product) => http.put(`/seller/products/${id}`, product);
+  deleteProduct = (id) => http.delete(`/seller/products/${id}`);
   
 
 }
