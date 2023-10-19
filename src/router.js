@@ -12,6 +12,7 @@ import BidHistory from './pages/BidHistory';
 import ProductList from './pages/seller/ProductList';
 import CreateProduct from './pages/seller/CreateProduct';
 import Logout from './pages/Logout';
+import ImageUpload from './components/layout/ImageUpload';
 
 const router = createBrowserRouter([
   {

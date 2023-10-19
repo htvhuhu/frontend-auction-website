@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import productService from '../../services/ProductService';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
+import ImageUpload from '../../components/layout/ImageUpload';
 
 const CreateProduct = () => {
     const [product, setProduct] = useState({ 
@@ -11,8 +12,13 @@ const CreateProduct = () => {
         deposit: '',
         bidDueDate: '',
         paymentDueDate: '',
+        images:[],
         released: false
     });
+
+    const setImages = (images)=>{
+        setProduct({ ...product, images});
+    }
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -114,7 +120,7 @@ const CreateProduct = () => {
                       required 
                   />
               </div>
-
+            <ImageUpload imgs={product.images} setImgs={setImages} />
               <div>
                 
               <button 
