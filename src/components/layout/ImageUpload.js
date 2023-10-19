@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import productService from '../../services/ProductService';
 
 const ImageUpload = ({imgs,setImgs}) => {
     const [files, setFiles] = useState(null);
@@ -30,11 +31,7 @@ const ImageUpload = ({imgs,setImgs}) => {
         }
     
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/seller/products/images', formData, {  // Change endpoint to handle multiple files
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const response = await productService.uploadProductImages(formData);
             console.log(images, response.data)
             setImages([...images, ...response.data]);
         } catch (error) {

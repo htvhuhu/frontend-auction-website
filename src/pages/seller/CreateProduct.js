@@ -5,15 +5,15 @@ import ImageUpload from '../../components/layout/ImageUpload';
 
 const CreateProduct = () => {
     const [product, setProduct] = useState({ 
-        title: '', 
+        name: '', 
         description: '', 
-        categories: '', 
-        startingPrice: '', 
-        deposit: '',
+        categories: '',
+        deposit: '', 
+        bidStartPrice: '', 
         bidDueDate: '',
         paymentDueDate: '',
-        images:[],
-        released: false
+        status: '',
+        images:[]
     });
 
     const setImages = (images)=>{
@@ -26,7 +26,8 @@ const CreateProduct = () => {
 
     const handleSave = async (release) => {
         try {
-            const newProduct = { ...product, released: release };
+            const newProduct = { ...product, status: release };
+            console.log(newProduct);
             await productService.addProduct(newProduct);
             alert('Product saved successfully');
         } catch (error) {
@@ -41,11 +42,11 @@ const CreateProduct = () => {
               <div className="form-group">
                   <input 
                       type="text" 
-                      name="title" 
-                      value={product.title} 
+                      name="name" 
+                      value={product.name} 
                       onChange={handleChange} 
                       className="form-control" 
-                      placeholder="Title"
+                      placeholder="Name"
                       required 
                   />
               </div>
@@ -76,8 +77,8 @@ const CreateProduct = () => {
               <div className="form-group">
                   <input 
                       type="number" 
-                      name="startingPrice" 
-                      value={product.startingPrice} 
+                      name="bidStartPrice" 
+                      value={product.bidStartPrice} 
                       onChange={handleChange} 
                       className="form-control" 
                       placeholder="Starting Price"
