@@ -1,5 +1,5 @@
 import '../../css/components/product/ProductList.css';
-import ProductService from '../../services/ProductService';
+import productService from '../../services/ProductService';
 import { useEffect, useState } from 'react';
 import ProductItem from './ProductItem';
 import ProductSearch from './ProductSearch';
@@ -8,8 +8,19 @@ function ProductList() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setProducts(ProductService.getProducts());
-  }, []);
+    const getProducts = async () => {
+      try {
+        const products = await productService.getData();
+        setProducts(products);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProducts();
+    
+
+    // setProducts(productService.getProducts());
+  }, [products]);
 
   return (
     <>

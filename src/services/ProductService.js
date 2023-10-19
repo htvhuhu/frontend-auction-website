@@ -1,6 +1,15 @@
-import axios from 'axios';
+import http from './HttpService';
 
 class ProductService {
+
+  getData = async () => {
+    try {
+      const response = await http.get('/api/v1/products');
+      return response.data;
+    } catch (error) {
+      throw new Error('Error fetching product data');
+    }
+  }
 
   getProducts() {
     let products = [];

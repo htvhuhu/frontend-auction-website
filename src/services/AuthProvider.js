@@ -1,24 +1,19 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import http from './HttpService';
+import { setAuthorizationHeader } from './HttpService';
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
-  const [token, setToken_] = useState(localStorage.getItem("token"));
-
-  // Function to set the authentication token
-  const setToken = (newToken) => {
-    setToken_(newToken);
-  };
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
 
   useEffect(() => {
     if (token) {
-      http.defaults.headers.common["Authorization"] = "Bearer " + token;
       localStorage.setItem("token", token);
+      setAuthorizationHeader(token);
     } else {
-      delete http.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
+      setAuthorizationHeader(null);
     }
   }, [token]);
 
