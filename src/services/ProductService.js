@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './HttpService';
 
 class ProductService {
 
@@ -65,6 +65,12 @@ class ProductService {
       images: ['/original (2).jpeg', '/original (1).jpeg', '/original.jpeg']
     };
   }
+  api_prefix = "/api/v1"
+  getProductsBySeller = () => api.get(this.api_prefix + '/seller/products');
+  addProduct = (product) => api.post(this.api_prefix + '/seller/products', product);
+  updateProduct = (id, product) => api.put(this.api_prefix + `/seller/products/${id}`, product);
+  deleteProduct = (id) => api.delete(this.api_prefix + `/seller/products/${id}`);
+  
 
 }
 

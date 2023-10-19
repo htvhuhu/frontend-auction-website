@@ -11,7 +11,6 @@ import RegisterUser from './pages/RegisterUser';
 import BidHistory from './pages/BidHistory';
 import ProductList from './pages/seller/ProductList';
 import CreateProduct from './pages/seller/CreateProduct';
-import MonthlyReport from './pages/seller/MonthlyReport';
 import Logout from './pages/Logout';
 
 const router = createBrowserRouter([
@@ -46,10 +45,6 @@ const router = createBrowserRouter([
       {
         path: 'products/add',
         element: <CreateProduct />
-      },
-      {
-        path: 'products/report',
-        element: <MonthlyReport />
       }
     ]
   },
