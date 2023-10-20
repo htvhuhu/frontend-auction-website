@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { setAuthorizationHeader } from './HttpService';
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
@@ -22,31 +21,50 @@ const AuthProvider = ({ children }) => {
       setRoles(decodedToken.roles);
 
     } else {
-      localStorage.removeItem("token");
-      setAuthorizationHeader(null);
+      handleLogout();
     }
-  }, [token]);
+  }, []);
 
   const handleLogout = () => {
     setToken();
     setUser('');
     setRoles([]);
     setAuthorizationHeader(null);
+    localStorage.removeItem("token");
   };
 
-  // // Memoized value of the authentication context
-  // const contextValue = useMemo(
-  //   () => ({
-  //     token,
-  //     setToken,
-  //   }),
-  //   [token]
-  // );
+  const isAuthenticated = () => {
+    return !token;
+  }
+  const hasSellerRole = () => {
+    return roles.includes('SELLER');
+  }
+  const hasCustomerRole = () => {
+    return roles.includes('CUSTOMER');
+  }
+  const hasAdminRole = () => {
+    return roles.includes('ADMIN');
+  }
+
+  // Memoized value of the authentication context
+  const contextValue = useMemo(
+    () => ({
+      token,
+      setToken,
+      user, roles,
+      handleLogout,
+      isAuthenticated,
+      hasSellerRole,
+      hasCustomerRole,
+      hasAdminRole,
+    }),
+    [token, user, roles]
+  );
 
   // Provide the authentication context to the children components
   return (
-    // <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-    <AuthContext.Provider value={{ token, setToken, user, roles, handleLogout }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    // <AuthContext.Provider value={{ token, setToken, user, roles, handleLogout }}>{children}</AuthContext.Provider>
   );
 };
 
