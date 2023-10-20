@@ -20,6 +20,8 @@ function ProductDetailBid({ product }) {
           <ProductDetailCurrentBid 
             currentBid={product.currentBid} 
             totalBids={product.totalBids}
+            productId={product.id}
+            bidStartPrice={product.bidStartPrice}
           />
         </div>
       </Stack>

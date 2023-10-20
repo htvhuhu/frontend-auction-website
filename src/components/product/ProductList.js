@@ -17,8 +17,6 @@ function ProductList() {
   async function fetchProducts(name, pageNumber) {
     setIsLoading(true);
 
-    console.log('fetchProducts', name, pageNumber);
-    
     const res = await productService.searchProduct(name, pageNumber);
     if (res) {
       if (res.success) {
