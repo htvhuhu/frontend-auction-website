@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import productService from '../../services/ProductService';
 
 const ImageUpload = ({imgs,setImgs}) => {
-    const [files, setFiles] = useState(null);
     const [images, setImages] = useState(imgs || []);
 
     useEffect(()=>{
@@ -13,17 +11,8 @@ const ImageUpload = ({imgs,setImgs}) => {
     },
     [images]);
 
-    const onFileChange = (e) => {
-        setFiles(e.target.files);
-    };
-
-    const onUpload = async (e) => {
-        e.preventDefault(); 
-        
-        if(!files){
-            alert("Please choose images!");
-            return;
-        }
+    const onFileChange = async (e) => {
+        const files = e.target.files;
         const formData = new FormData();
         
         for (let file of files) { // Loop through and append each file
@@ -37,14 +26,15 @@ const ImageUpload = ({imgs,setImgs}) => {
         } catch (error) {
             console.error("There was an error uploading the files!", error);
         }
-        
+        alert("Images uploaded successfully!");
     };
+
     
 
     return (
         <div>
             <input type="file" onChange={onFileChange} multiple />
-            <button type='button' onClick={onUpload} disabled={files?.length === 0} >Upload</button>
+            {/* <button type='button' onClick={onUpload} disabled={files?.length === 0} >Upload</button> */}
 
             <div>
                 {images?.map((image) => (
