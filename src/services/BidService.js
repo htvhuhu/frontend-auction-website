@@ -11,6 +11,15 @@ class BidService {
     }
   }
 
+  makeDeposit = async (bid) => {
+    try {
+      const res = await http.post('/bids/deposit', bid);
+      return res.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
 }
 
 const bidService = new BidService();

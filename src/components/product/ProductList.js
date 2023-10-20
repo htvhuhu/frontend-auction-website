@@ -61,7 +61,7 @@ function ProductList() {
 
   return (
     <>
-      <div className='error_container'>
+      <div className='text-danger mt-2'>
         {error && <DisplayMessage message={error} type="error" />}
       </div>
       <ProductSearch onSearch={setSearchKeyword} />

@@ -37,7 +37,7 @@ function Login() {
     <Form className='login' onSubmit={submitHandler}>
       <div className='box'>
         <h1>Login</h1>
-        <div className='error_container'>
+        <div className='text-danger mt-2'>
           {error && <DisplayMessage message={error} type="error" />}
         </div>
         <Form.Group className="mb-3" controlId="emailGroup">
@@ -56,7 +56,6 @@ function Login() {
         <Form.Group className="mb-3" controlId="registerGroup">
           <span className='me-2'>No account?</span>
           <a href="/register">Register</a>
-          <a href="/forget" className='ms-4'>Forgot Password</a>
         </Form.Group>
       </div>
       <Footer />

@@ -22,6 +22,14 @@ class ProductService {
     }
   }
 
+  getCurrentBidByProductId = async (id) => {
+    try {
+      const res = await http.get(`/products/${id}/bid`);
+      return res.data;
+    } catch (error) {
+      return null;
+    }
+  }
   
   getProductsBySeller = () => http.get("/seller/products");
   getProductsById = (id) => http.get(`/seller/products/${id}`);

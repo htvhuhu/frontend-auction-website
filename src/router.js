@@ -5,14 +5,11 @@ import Error from './components/layout/Error';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
-import ForgotPassword from './pages/ForgotPassword';
-import VerifyCode from './pages/VerifyCode';
 import RegisterUser from './pages/RegisterUser';
 import BidHistory from './pages/BidHistory';
 import ProductList from './pages/seller/ProductList';
 import CreateProduct from './pages/seller/CreateProduct';
 import Logout from './pages/Logout';
-import ImageUpload from './components/layout/ImageUpload';
 
 const router = createBrowserRouter([
   {
@@ -63,14 +60,6 @@ const router = createBrowserRouter([
   }, {
     path: '/logout',
     element: <Logout />
-  },
-  {
-    path: '/forgot',
-    element: <ForgotPassword />
-  },
-  {
-    path: '/verify',
-    element: <VerifyCode />
   }
 ]);
 
