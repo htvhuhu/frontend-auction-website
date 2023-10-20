@@ -1,6 +1,10 @@
 import Nav from 'react-bootstrap/Nav';
+import { AuthContext } from '../../services/AuthProvider';
+import { useContext } from 'react';
 
 function MainNavigation() {
+  const { hasSellerRole } = useContext(AuthContext);
+
   return (
     <div className='main-nav'>
       <Nav defaultActiveKey="/" >
@@ -10,9 +14,9 @@ function MainNavigation() {
         <Nav.Item>
           <Nav.Link eventKey="link-1" className='item'>BID HISTORY</Nav.Link>
         </Nav.Item>
-        <Nav.Item>
+        {hasSellerRole() && <Nav.Item>
           <Nav.Link href='/seller/products' className='item'>SELLER</Nav.Link>
-        </Nav.Item>
+        </Nav.Item>}
       </Nav>
     </div>
   )

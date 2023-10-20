@@ -7,7 +7,7 @@ const http = axios.create({
 
 const token = localStorage.getItem('token');
 if (token) {
-    console.log("has token, setting to default header...")
+    // console.log("has token, setting to default header...")
     http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 

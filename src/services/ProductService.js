@@ -22,11 +22,21 @@ class ProductService {
     }
   }
 
-  getProductsBySeller = () => http.get('/seller/products');
-  addProduct = (product) => http.post('/seller/products', product);
+  
+  getProductsBySeller = () => http.get("/seller/products");
+  getProductsById = (id) => http.get(`/seller/products/${id}`);
+  addProduct = (product) => http.post("/seller/products", product);
   updateProduct = (id, product) => http.put(`/seller/products/${id}`, product);
   deleteProduct = (id) => http.delete(`/seller/products/${id}`);
+
+  uploadProductImages = (images) =>
+    http.post("/seller/products/images", images, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   
+  getProductImage = (productImageName) => `http://127.0.0.1:8080/api/v1/seller/products/statics/images/${productImageName}`;
 
 }
 

@@ -1,28 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import productService from '../../services/ProductService';
 
-const ImageUpload = ({imgs,setImgs}) => {
-    const [files, setFiles] = useState(null);
-    const [images, setImages] = useState(imgs || []);
+const ImageUpload = ({setImgs}) => {
 
-    useEffect(()=>{
-        if(setImgs){
-            setImgs(images);
-        }
-    },
-    [images]);
-
-    const onFileChange = (e) => {
-        setFiles(e.target.files);
-    };
-
-    const onUpload = async (e) => {
-        e.preventDefault(); 
-        
-        if(!files){
-            alert("Please choose images!");
-            return;
-        }
+    const onFileChange = async (e) => {
+        const files = e.target.files;
         const formData = new FormData();
         
         for (let file of files) { // Loop through and append each file
@@ -30,30 +12,20 @@ const ImageUpload = ({imgs,setImgs}) => {
         }
     
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/seller/products/images', formData, {  // Change endpoint to handle multiple files
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log(images, response.data)
-            setImages([...images, ...response.data]);
+            const response = await productService.uploadProductImages(formData);
+            setImgs(response.data);
         } catch (error) {
             console.error("There was an error uploading the files!", error);
+            alert("There was an error uploading the files!");
         }
-        
     };
+
     
 
     return (
         <div>
             <input type="file" onChange={onFileChange} multiple />
-            <button type='button' onClick={onUpload} disabled={files?.length === 0} >Upload</button>
-
-            <div>
-                {images?.map((image) => (
-                    <img key={image.id} src={image.url} alt={image.name} height={100} width={100} />
-                ))}
-            </div>
+            {/* <button type='button' onClick={onUpload} disabled={files?.length === 0} >Upload</button> */}
         </div>
     );
 };

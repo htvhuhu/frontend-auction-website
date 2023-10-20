@@ -51,18 +51,18 @@ const ProductList = () => {
         <tbody>
           {products?.map((product) => (
             <tr key={product.id}>
-              <td>{product.title}</td>
+              <td>{product.name}</td>
               <td>{product.description}</td>
               <td>{product.categories}</td>
-              <td>${product.startingPrice.toFixed(2)}</td>
+              <td>${product.bidStartPrice.toFixed(2)}</td>
               <td>${product.deposit.toFixed(2)}</td>
               <td>{new Date(product.bidDueDate).toLocaleDateString()}</td>
               <td>{new Date(product.paymentDueDate).toLocaleDateString()}</td>
-              <td>{product.released ? "Released" : "Not Released"}</td>
+              <td>{product.status ? "Released" : "Not Released"}</td>
               <td>
-                {!product.released && (
+                {!product.status && (
                   <Link
-                    to={`/edit-product/${product.id}`}
+                    to={`edit/${product.id}`}
                     className="btn btn-warning btn-sm mr-2"
                   >
                     Edit
