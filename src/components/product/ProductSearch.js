@@ -1,18 +1,14 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import CategoryService from '../../services/CategoryService';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 
-function ProductSearch() {
-  const [categories, setCategories] = useState([]);
+function ProductSearch(props) {
+  const searchRef = useRef();
 
-  useEffect(() => {
-    const res = CategoryService.getCategories();
-    setCategories(res);
-  }, []);
+  const handleSearch = () => {
+    props.onSearch(searchRef.current.value);
+  }
 
   return (
     <div className='product-search'>
@@ -28,8 +24,9 @@ function ProductSearch() {
             type="search"
             placeholder="Search keywords"
             aria-label="Search"
+            ref={searchRef}
           />
-          <Button variant="primary">Search</Button>
+          <Button variant="primary" onClick={handleSearch}>Search</Button>
         </InputGroup>
       </Form>
     </div>

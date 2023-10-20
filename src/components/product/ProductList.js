@@ -12,10 +12,13 @@ function ProductList() {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   async function fetchProducts(name, pageNumber) {
     setIsLoading(true);
 
+    console.log('fetchProducts', name, pageNumber);
+    
     const res = await productService.searchProduct(name, pageNumber);
     if (res) {
       if (res.success) {
@@ -31,9 +34,9 @@ function ProductList() {
     setIsLoading(false);
   }
 
-  useEffect(() => {    
-    fetchProducts('', pageNumber);    
-  }, [pageNumber]);
+  useEffect(() => {
+    fetchProducts(searchKeyword, pageNumber);    
+  }, [pageNumber, searchKeyword]);
 
   if (isLoading) {
     return (
@@ -55,7 +58,7 @@ function ProductList() {
 
   function paging(pageNo) {
     setPageNumber(pageNo);
-    fetchProducts('', pageNo);
+    fetchProducts(searchKeyword, pageNo);
   }
 
   return (
@@ -63,7 +66,7 @@ function ProductList() {
       <div className='error_container'>
         {error && <DisplayMessage message={error} type="error" />}
       </div>
-      <ProductSearch />
+      <ProductSearch onSearch={setSearchKeyword} />
       <div className="product-list">
         {products.map(prod => (
           <ProductItem prod={prod} key={prod.id} />
