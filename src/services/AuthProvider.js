@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
     } else {
       handleLogout();
     }
-  }, []);
+  }, [token]);
 
   const handleLogout = () => {
     setToken();
@@ -46,25 +46,20 @@ const AuthProvider = ({ children }) => {
     return roles.includes('ADMIN');
   }
 
-  // Memoized value of the authentication context
-  const contextValue = useMemo(
-    () => ({
-      token,
-      setToken,
-      user, roles,
-      handleLogout,
-      isAuthenticated,
-      hasSellerRole,
-      hasCustomerRole,
-      hasAdminRole,
-    }),
-    [token, user, roles]
-  );
+  const contextValue = {
+    token,
+    setToken,
+    user, roles,
+    handleLogout,
+    isAuthenticated,
+    hasSellerRole,
+    hasCustomerRole,
+    hasAdminRole,
+  }
 
   // Provide the authentication context to the children components
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-    // <AuthContext.Provider value={{ token, setToken, user, roles, handleLogout }}>{children}</AuthContext.Provider>
   );
 };
 
