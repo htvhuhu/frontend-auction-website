@@ -1,78 +1,28 @@
-import http from "./HttpService";
+import http from './HttpService';
+import Constant from '../util/constant';
 
 class ProductService {
-  getData = async () => {
+
+  searchProduct = async (name, pageNumber) => {
     try {
-      const response = await http.get("/products");
-      return response.data;
+      const searchRequest = {name, pageNumber, pageSize: Constant.PRODUCT_PAGE_SIZE};
+      const res = await http.post('/products/search', searchRequest);
+      return res.data;
     } catch (error) {
-      throw new Error("Error fetching product data");
+      return null;
     }
-  };
-
-  getProducts() {
-    let products = [];
-    products.push({
-      id: 1,
-      name: "iPhone 15 Pro Max",
-      bidStartPrice: 800,
-      deposit: 50,
-      bidDueDate: "10/22/2023",
-      images: ["/logo192.png"],
-    });
-    products.push({
-      id: 2,
-      name: "iPhone 15 Pro",
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: "10/20/2023",
-      images: ["/logo192.png"],
-    });
-    products.push({
-      id: 3,
-      name: "Apple iPhone 14 Pro Max 128GB",
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: "10/20/2023",
-      images: ["/logo192.png"],
-    });
-    products.push({
-      id: 4,
-      name: "Apple iPhone 14 Pro Max 128GB",
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: "10/20/2023",
-      images: ["/logo192.png"],
-    });
-    products.push({
-      id: 5,
-      name: "Apple iPhone 14 Pro Max 128GB",
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: "10/20/2023",
-      images: ["/logo192.png"],
-    });
-    products.push({
-      id: 6,
-      name: "Apple iPhone 14 Pro Max 128GB Apple iPhone 14 Pro Max 128GB",
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: "10/20/2023",
-      images: ["/logo192.png"],
-    });
-    return products;
   }
 
-  getProductDetails(productId) {
-    return {
-      id: 6,
-      name: "Apple iPhone 14 Pro Max 128GB Apple iPhone 14 Pro Max 128GB",
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: "10/20/2023",
-      images: ["/original (2).jpeg", "/original (1).jpeg", "/original.jpeg"],
-    };
+  getProductDetails = async (id) => {
+    try {
+      const res = await http.get(`/products/${id}`);
+      return res.data;
+    } catch (error) {
+      return null;
+    }
   }
+
+  
   getProductsBySeller = () => http.get("/seller/products");
   getProductsById = (id) => http.get(`/seller/products/${id}`);
   addProduct = (product) => http.post("/seller/products", product);
@@ -89,5 +39,6 @@ class ProductService {
   getProductImage = (productImageName) => `http://127.0.0.1:8080/api/v1/seller/products/statics/images/${productImageName}`;
 
 }
+
 const productService = new ProductService();
 export default productService;

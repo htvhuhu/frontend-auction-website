@@ -1,5 +1,3 @@
-import Stack from 'react-bootstrap/Stack';
-import Image from 'react-bootstrap/Image';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,11 +16,20 @@ function ProductItem({ prod }) {
           <Card.Body>
             <Card.Title className='prod-title'>{prod.name}</Card.Title>
             <div className='bid-info'>
-              <div><b>Bids:</b></div>
-              <div><b>Watchers:</b></div>
-              <div><b>Starting Price:</b></div>
+              <div className='py-2'>
+                <b>#ID:</b>
+                <label className='ms-2'>{prod.id}</label>
+              </div>
+              <div>
+                <b>Total Bids:</b>
+                <label className='ms-2'>{prod.totalBids}</label>
+              </div>              
+              <div className='py-2'>
+                <b>Start Price:</b>
+                <label className='price ms-2'>{prod.bidStartPrice}</label>
+              </div>
               <div><b>Current Bid:</b></div>
-              <div className='cur-bid'><b>100</b></div>
+              <div className='cur-bid'><b>{prod.currentBid}</b></div>
             </div>
           </Card.Body>
         </Card>

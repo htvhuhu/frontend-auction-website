@@ -2,7 +2,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-function ProductDetailCurrentBid({ product }) {
+function ProductDetailCurrentBid({ currentBid, totalBids }) {
   return (
     <div className='box'>
       <div className='left py-2'>
@@ -13,11 +13,11 @@ function ProductDetailCurrentBid({ product }) {
       <div className='right'>
         <div>
           <b>CURRENT BID:</b>
-          <label className='current-bid ms-2'>{product.bidStartPrice}</label>
+          <label className='current-bid ms-2'>{currentBid}</label>
         </div>
         <div className='py-2'>
-          <b>Bids:</b>
-          <label className='ms-2'>2</label>
+          <b>Total Bids:</b>
+          <label className='ms-2'>{totalBids}</label>
         </div>
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
