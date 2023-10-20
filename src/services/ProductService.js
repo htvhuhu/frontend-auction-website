@@ -74,6 +74,7 @@ class ProductService {
     };
   }
   getProductsBySeller = () => http.get("/seller/products");
+  getProductsById = (id) => http.get(`/seller/products/${id}`);
   addProduct = (product) => http.post("/seller/products", product);
   updateProduct = (id, product) => http.put(`/seller/products/${id}`, product);
   deleteProduct = (id) => http.delete(`/seller/products/${id}`);

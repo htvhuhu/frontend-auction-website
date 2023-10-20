@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import productService from '../../services/ProductService';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import ImageUpload from '../../components/layout/ImageUpload';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const CreateProduct = () => {
     const [product, setProduct] = useState({ 
@@ -18,9 +18,21 @@ const CreateProduct = () => {
     });
     const navigate = useNavigate();
     const setImages = (images)=>{
-        setProduct({ ...product, images});
-        console.log(product,images);
+        const newImages = images.map((img,index)=>({id: product?.images[index]?.id, name:img.name}));
+        console.log(newImages);
+        setProduct({ ...product, images: newImages});
     }
+
+    const params = useParams();
+    useEffect(()=>{
+        if(params?.id){
+            (async ()=>{
+                const response = await productService.getProductsById(params.id);
+                console.log(params?.id,response.data);
+                setProduct(response.data);
+            })();
+        }
+    },[])
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -30,7 +42,11 @@ const CreateProduct = () => {
         try {
             const newProduct = { ...product, status: release };
             console.log(newProduct);
-            await productService.addProduct(newProduct);
+            if(params?.id){
+                await productService.updateProduct(params.id,newProduct);
+            }else{
+                await productService.addProduct(newProduct);
+            }
             alert('Product saved successfully');
         } catch (error) {
             console.error('There was an error!', error);
@@ -40,7 +56,7 @@ const CreateProduct = () => {
 
     return (
         <div className="container mt-3 seller-product-add-container">
-            <h2>Add Product</h2>
+            <h2>{params?.id ? "Edit Product" : "Add Product"}</h2>
             <form className='seller-product-add-form' onSubmit={(e) => e.preventDefault()}>
                 <div className="form-group">
                     <input 
@@ -124,7 +140,14 @@ const CreateProduct = () => {
                         required 
                     />
                 </div>
-                <ImageUpload imgs={product.images} setImgs={setImages} />
+                <ImageUpload setImgs={setImages} />
+                
+                <div>
+                    {product.images?.map((image) => (
+                        <img key={image.id} src={image.url} alt={image.name} height={100} width={100} />
+                    ))}
+                </div>
+
                 <div>
                     
                 <button 

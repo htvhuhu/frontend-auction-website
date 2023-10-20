@@ -58,11 +58,11 @@ const ProductList = () => {
               <td>${product.deposit.toFixed(2)}</td>
               <td>{new Date(product.bidDueDate).toLocaleDateString()}</td>
               <td>{new Date(product.paymentDueDate).toLocaleDateString()}</td>
-              <td>{product.released ? "Released" : "Not Released"}</td>
+              <td>{product.status ? "Released" : "Not Released"}</td>
               <td>
-                {!product.released && (
+                {!product.status && (
                   <Link
-                    to={`/edit-product/${product.id}`}
+                    to={`edit/${product.id}`}
                     className="btn btn-warning btn-sm mr-2"
                   >
                     Edit
