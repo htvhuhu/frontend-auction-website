@@ -4,19 +4,32 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ImageUpload from '../../components/layout/ImageUpload';
 import {useNavigate, useParams} from "react-router-dom";
 import { PRODUCT_STATUS } from '../../util/constant';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 
 const CreateProduct = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const categories = [
+        'Electronics', 'Clothing', 'Books', 'Home Appliances', 
+        'Automobiles', 'Beauty & Personal Care', 'Computers', 'Furniture', 
+        'Gardening', 'Groceries', 'Health & Fitness', 'Jewelry', 
+        'Kitchen Appliances', 'Musical Instruments', 'Pets', 'Sports Equipment',
+        'Toys & Games', 'Phones & Accessories', 'Outdoor', 'Travel & Luggage'
+    ].map(category => ({ label: category, value: category }));
+
     const [product, setProduct] = useState({ 
         name: '', 
         description: '', 
-        categories: '',
+        categories: [],
         deposit: '', 
         bidStartPrice: '', 
-        bidDueDate: '',
-        paymentDueDate: '',
+        bidDueDate: today,
+        paymentDueDate: today,
         status: '',
-        images:[]
+        images:[],
+        conditionOfSale:"",
+        shippingInformation:""
     });
     const navigate = useNavigate();
     const setImages = (images)=>{
@@ -40,8 +53,37 @@ const CreateProduct = () => {
         setProduct({ ...product, [e.target.name]: e.target.value });
     };
 
+    const handleCategoryChange = (selectedOptions) => {
+
+        console.log(selectedOptions);
+        setProduct({...product, categories: selectedOptions ? selectedOptions.map(o=>o.value) : []
+        });
+    };
+    
+
     const handleSave = async (release) => {
         try {
+            if (release === "release") {
+                const requiredFields = [
+                    'name', 
+                    'description', 
+                    'deposit', 
+                    'bidStartPrice', 
+                    'bidDueDate', 
+                    'paymentDueDate', 
+                    'conditionOfSale', 
+                    'shippingInformation'
+                ];
+            
+                const isAnyFieldEmpty = requiredFields.some(field => product[field] || product[field] === '');
+                const areCategoriesEmpty = product.categories || product.categories.length === 0;
+            
+                if (isAnyFieldEmpty || areCategoriesEmpty) {
+                    toast.error("Please input all information to release!");
+                    return;
+                }
+            }
+            console.log("status",release);
             const newProduct = { ...product, status: release };
             console.log(newProduct);
             if(params?.id){
@@ -49,9 +91,11 @@ const CreateProduct = () => {
             }else{
                 await productService.addProduct(newProduct);
             }
-            alert('Product saved successfully');
+            toast.success('Product saved successfully!');
         } catch (error) {
             console.error('There was an error!', error);
+            toast.error('There was an error saving the product.');
+
         }
         navigate("/seller/products");
     };
@@ -82,19 +126,40 @@ const CreateProduct = () => {
                         required 
                     />
                 </div>
-
+                
                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        name="categories" 
-                        value={product.categories} 
-                        onChange={handleChange} 
-                        className="form-control" 
-                        placeholder="Categories"
-                        required 
+                    <Select 
+                        name="categories"
+                        options={categories} 
+                        value={categories.filter(option => product.categories.includes(option.value))}
+                        onChange={handleCategoryChange} 
+                        className="form-control"
+                        placeholder="Select Categories"
+                        isMulti
+                        isSearchable
                     />
                 </div>
 
+                <div className="form-group">
+                    <textarea 
+                        name="shippingInformation" 
+                        value={product.shippingInformation} 
+                        onChange={handleChange} 
+                        className="form-control"
+                        placeholder="Shipping Information"
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <textarea 
+                        name="conditionOfSale" 
+                        value={product.conditionOfSale} 
+                        onChange={handleChange} 
+                        className="form-control"
+                        placeholder="Condition Of Sale"
+                        required 
+                    />
+                </div>
                 <div className="form-group">
                     <input 
                         type="number" 
@@ -157,7 +222,7 @@ const CreateProduct = () => {
                     onClick={() => handleSave(`${PRODUCT_STATUS.DRAFT}`)}
                     style={{width:"50%"}}
                     className="btn btn-primary mr-5">
-                    Save Without Release
+                    Save draft
                 </button>
 
                 <button 
@@ -165,7 +230,7 @@ const CreateProduct = () => {
                     onClick={() => handleSave(`${PRODUCT_STATUS.RELEASE}`)} 
                     style={{width:"50%"}}
                     className="btn btn-success">
-                    Save and Release
+                    Release
                 </button>
                 
                 </div>

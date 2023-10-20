@@ -4,7 +4,8 @@ import productService from "../../services/ProductService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/components/product/Seller.css";
 import { PRODUCT_STATUS } from "../../util/constant";
-
+import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,7 @@ const ProductList = () => {
       try {
         const response = await productService.getProductsBySeller();
         setProducts(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching the products!", error);
       }
@@ -22,30 +24,47 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    setSelectedId(id);
+    setShow(true);
+  };
+
   const handleDelete = async (productId) => {
     try {
       await productService.deleteProduct(productId);
       setProducts(products.filter((product) => product.id !== productId));
-      alert("Product deleted successfully");
+      toast.success('Product deleted successfully!');
     } catch (error) {
       console.error("Error deleting the product!", error);
+      toast.error('There was an error deleting the product.');
     }
   };
 
   return (
     <div className="container mt-3">
-      <h2>My Products</h2>
-      <Link to="add" >CreateProduct</Link>
+        <div style={{ position: 'relative', textAlign: 'center' }}>
+            <h2>My Products</h2>
+            <Link to="add" className="btn btn-primary btn-lg" style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)' }}>
+                Create Product
+            </Link>
+        </div>
+
+
       <table className="table table-striped">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Categories</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Thumbnail</th>
+            {/* <th>Categories</th> */}
             <th>Starting Price</th>
             <th>Deposit</th>
-            <th>Bid Due Date</th>
-            <th>Payment Due Date</th>
+            <th>Bid Due</th>
+            <th>Payment Due</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -53,11 +72,19 @@ const ProductList = () => {
         <tbody>
           {products?.map((product) => (
             <tr key={product.id}>
+              <td>{product.id}</td>
               <td>{product.name}</td>
-              <td>{product.description}</td>
-              <td>{product.categories}</td>
-              <td>${product.bidStartPrice.toFixed(2)}</td>
-              <td>${product.deposit.toFixed(2)}</td>
+              <td>
+                <img 
+                    src={productService.getProductImage(product?.images[0]?.name)} 
+                    alt={product?.images[0]?.name} 
+                    style={{width: '5vw', height: '5vw'}}
+                />
+              </td>
+              {/* <td>{product.description}</td> */}
+              {/* <td>{product.categories}</td> */}
+              <td>${product.bidStartPrice?.toFixed(2)}</td>
+              <td>${product.deposit?.toFixed(2)}</td>
               <td>{new Date(product.bidDueDate).toLocaleDateString()}</td>
               <td>{new Date(product.paymentDueDate).toLocaleDateString()}</td>
               <td>{product.status}</td>
@@ -71,7 +98,7 @@ const ProductList = () => {
                   </Link>
                 )}
                 <button
-                  onClick={() => handleDelete(product.id)}
+                  onClick={() => handleShow(product.id)}
                   className="btn btn-danger btn-sm"
                 >
                   Delete
@@ -81,6 +108,27 @@ const ProductList = () => {
           ))}
         </tbody>
       </table>
+      
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              handleDelete(selectedId);
+              handleClose();
+            }}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
