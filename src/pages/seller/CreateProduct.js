@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import productService from '../../services/ProductService';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import ImageUpload from '../../components/layout/ImageUpload';
@@ -6,6 +6,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import { PRODUCT_STATUS } from '../../util/constant';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../services/AuthProvider';
 
 
 const CreateProduct = () => {
@@ -18,6 +19,7 @@ const CreateProduct = () => {
         'Toys & Games', 'Phones & Accessories', 'Outdoor', 'Travel & Luggage'
     ].map(category => ({ label: category, value: category }));
 
+    const { user } = useContext(AuthContext);
     const [product, setProduct] = useState({ 
         name: '', 
         description: '', 
@@ -29,12 +31,13 @@ const CreateProduct = () => {
         status: '',
         images:[],
         conditionOfSale:"",
-        shippingInformation:""
+        shippingInformation:"",
+        owner: user,
+        created: new Date()
     });
     const navigate = useNavigate();
     const setImages = (images)=>{
         const newImages = images.map((img,index)=>({id: product?.images[index]?.id, name:img.name}));
-        console.log(newImages);
         setProduct({ ...product, images: newImages});
     }
 
@@ -43,7 +46,6 @@ const CreateProduct = () => {
         if(params?.id){
             (async ()=>{
                 const response = await productService.getProductsById(params.id);
-                console.log(params?.id,response.data);
                 setProduct(response.data);
             })();
         }
@@ -54,9 +56,7 @@ const CreateProduct = () => {
     };
 
     const handleCategoryChange = (selectedOptions) => {
-
-        console.log(selectedOptions);
-        setProduct({...product, categories: selectedOptions ? selectedOptions.map(o=>o.value) : []
+            setProduct({...product, categories: selectedOptions ? selectedOptions.map(o=>o.value) : []
         });
     };
     
@@ -75,16 +75,15 @@ const CreateProduct = () => {
                     'shippingInformation'
                 ];
             
-                const isAnyFieldEmpty = requiredFields.some(field => product[field] || product[field] === '');
-                const areCategoriesEmpty = product.categories || product.categories.length === 0;
+                const isAnyFieldEmpty = requiredFields.some(field => !product[field] || product[field] === '');
+                const areCategoriesEmpty = !product.categories || product.categories.length === 0;
             
                 if (isAnyFieldEmpty || areCategoriesEmpty) {
                     toast.error("Please input all information to release!");
                     return;
                 }
             }
-            console.log("status",release);
-            const newProduct = { ...product, status: release };
+            const newProduct = { ...product, status: release,owner:user };
             console.log(newProduct);
             if(params?.id){
                 await productService.updateProduct(params.id,newProduct);
@@ -104,110 +103,123 @@ const CreateProduct = () => {
         <div className="container mt-3 seller-product-add-container">
             <h2>{params?.id ? "Edit Product" : "Add Product"}</h2>
             <form className='seller-product-add-form' onSubmit={(e) => e.preventDefault()}>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        name="name" 
-                        value={product.name} 
-                        onChange={handleChange} 
-                        className="form-control" 
-                        placeholder="Name"
-                        required 
-                    />
-                </div>
+                 
+            <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input 
+                    type="text" 
+                    id="name"
+                    name="name" 
+                    value={product.name} 
+                    onChange={handleChange} 
+                    className="form-control" 
+                    required 
+                />
+            </div>
 
-                <div className="form-group">
-                    <textarea 
-                        name="description" 
-                        value={product.description} 
-                        onChange={handleChange} 
-                        className="form-control"
-                        placeholder="Description"
-                        required 
-                    />
-                </div>
-                
-                <div className="form-group">
-                    <Select 
-                        name="categories"
-                        options={categories} 
-                        value={categories.filter(option => product.categories.includes(option.value))}
-                        onChange={handleCategoryChange} 
-                        className="form-control"
-                        placeholder="Select Categories"
-                        isMulti
-                        isSearchable
-                    />
-                </div>
+            <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <textarea 
+                    id="description"
+                    name="description" 
+                    value={product.description} 
+                    onChange={handleChange} 
+                    className="form-control"
+                    required 
+                />
+            </div>
 
-                <div className="form-group">
-                    <textarea 
-                        name="shippingInformation" 
-                        value={product.shippingInformation} 
-                        onChange={handleChange} 
-                        className="form-control"
-                        placeholder="Shipping Information"
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <textarea 
-                        name="conditionOfSale" 
-                        value={product.conditionOfSale} 
-                        onChange={handleChange} 
-                        className="form-control"
-                        placeholder="Condition Of Sale"
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <input 
-                        type="number" 
-                        name="bidStartPrice" 
-                        value={product.bidStartPrice} 
-                        onChange={handleChange} 
-                        className="form-control" 
-                        placeholder="Starting Price"
-                        required 
-                    />
-                </div>
+            <div className="form-group">
+                <label htmlFor="categories">Categories</label>
+                <Select 
+                    id="categories"
+                    name="categories"
+                    options={categories} 
+                    value={categories.filter(option => product.categories.includes(option.value))}
+                    onChange={handleCategoryChange} 
+                    className="form-control"
+                    isMulti
+                    isSearchable
+                />
+            </div>
 
-                <div className="form-group">
-                    <input 
-                        type="number" 
-                        name="deposit" 
-                        value={product.deposit} 
-                        onChange={handleChange} 
-                        className="form-control" 
-                        placeholder="Deposit"
-                        required 
-                    />
-                </div>
+            <div className="form-group">
+                <label htmlFor="shippingInformation">Shipping Information</label>
+                <textarea 
+                    id="shippingInformation"
+                    name="shippingInformation" 
+                    value={product.shippingInformation} 
+                    onChange={handleChange} 
+                    className="form-control"
+                    required 
+                />
+            </div>
 
-                <div className="form-group">
-                    <input 
-                        type="date" 
-                        name="bidDueDate" 
-                        value={product.bidDueDate} 
-                        onChange={handleChange} 
-                        className="form-control"
-                        placeholder="Bid Due Date"
-                        required 
-                    />
-                </div>
+            <div className="form-group">
+                <label htmlFor="conditionOfSale">Condition Of Sale</label>
+                <textarea 
+                    id="conditionOfSale"
+                    name="conditionOfSale" 
+                    value={product.conditionOfSale} 
+                    onChange={handleChange} 
+                    className="form-control"
+                    required 
+                />
+            </div>
 
-                <div className="form-group">
-                    <input 
-                        type="date" 
-                        name="paymentDueDate" 
-                        value={product.paymentDueDate} 
-                        onChange={handleChange} 
-                        className="form-control" 
-                        placeholder="Payment Due Date"
-                        required 
-                    />
-                </div>
-                <ImageUpload setImgs={setImages} />
+            <div className="form-group">
+                <label htmlFor="bidStartPrice">Starting Price</label>
+                <input 
+                    type="number" 
+                    id="bidStartPrice"
+                    name="bidStartPrice" 
+                    value={product.bidStartPrice} 
+                    onChange={handleChange} 
+                    className="form-control" 
+                    required 
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="deposit">Deposit</label>
+                <input 
+                    type="number" 
+                    id="deposit"
+                    name="deposit" 
+                    value={product.deposit} 
+                    onChange={handleChange} 
+                    className="form-control" 
+                    required 
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="bidDueDate">Bid Due Date</label>
+                <input 
+                    type="date" 
+                    id="bidDueDate"
+                    name="bidDueDate" 
+                    value={product.bidDueDate} 
+                    onChange={handleChange} 
+                    className="form-control"
+                    required 
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="paymentDueDate">Payment Due Date</label>
+                <input 
+                    type="date" 
+                    id="paymentDueDate"
+                    name="paymentDueDate" 
+                    value={product.paymentDueDate} 
+                    onChange={handleChange} 
+                    className="form-control" 
+                    required 
+                />
+            </div>
+            
+            <ImageUpload setImgs={setImages} />
                 
                 <div>
                     {product.images?.map((image) => (
