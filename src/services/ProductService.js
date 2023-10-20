@@ -1,13 +1,23 @@
 import http from './HttpService';
+import Constant from '../util/constant';
 
 class ProductService {
 
-  searchProduct = async (name, ) => {
+  searchProduct = async (name, pageNumber) => {
     try {
-      const res = await http.post('/products/search');
+      const searchRequest = {name, pageNumber, pageSize: Constant.PRODUCT_PAGE_SIZE};
+      const res = await http.post('/products/search', searchRequest);
       return res.data;
     } catch (error) {
-      console.log('error', error);
+      return null;
+    }
+  }
+
+  getProductDetails = async (id) => {
+    try {
+      const res = await http.get(`/products/${id}`);
+      return res.data;
+    } catch (error) {
       return null;
     }
   }

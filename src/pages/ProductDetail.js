@@ -4,23 +4,55 @@ import Col from 'react-bootstrap/Col';
 import ProductDetailBid from '../components/productDetail/ProductDetailBid';
 import ProductDetailInfo from '../components/productDetail/ProductDetailInfo';
 import { useEffect, useState } from 'react';
-import ProductService from '../services/ProductService';
+import productService from '../services/ProductService';
 import '../css/components/product/ProductDetail.css';
+import { useLocation } from 'react-router-dom';
+import DisplayMessage from '../components/layout/DisplayMessage';
 
-function ProductDetail({productId}) {
+
+function ProductDetail() {
+  const [error, setError] = useState();
+  const location = useLocation();
   const [product, setProduct] = useState();
+  
+
+  console.log("location", location.state);
 
   useEffect(() => {
-    setProduct(ProductService.getProductDetails(productId));
-  }, [productId]);
+    async function getProduct(id) {
+
+      const res = await productService.getProductDetails(id);
+      if (res) {
+        if (res.success) {
+          console.log('getProductDetails', res);
+          setProduct({...res.data, totalBids: res.totalBids, currentBid: res.currentBid});
+        } else {
+          setError(res.message);
+        }
+      } else {
+        setError('There is something wrong. Please try again.');
+      }
+
+    }
+
+    if (location.state) {
+      getProduct(location.state);
+    }
+    
+  }, [location.state]);
 
   return (
-    <Container>
-      <Row>
-        <Col sm={8}>{product && <ProductDetailInfo product={product}/>}</Col>
-        <Col sm={4}>{product && <ProductDetailBid product={product}/>}</Col>
-      </Row>
-    </Container>
+    <>
+      <div className='error_container'>
+        {error && <DisplayMessage message={error} type="error" />}
+      </div>
+      <Container>
+        <Row>
+          <Col sm={8}>{product && <ProductDetailInfo product={product} />}</Col>
+          <Col sm={4}>{product && <ProductDetailBid product={product} />}</Col>
+        </Row>
+      </Container>
+    </>
   )
 }
 

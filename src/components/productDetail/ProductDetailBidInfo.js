@@ -1,5 +1,5 @@
 
-function ProductDetailBidInfo({ product }) {
+function ProductDetailBidInfo({ bidDueDate, bidStartPrice, deposit }) {
   return (
     <div className='box'>
       <div className='left py-2'>
@@ -11,14 +11,16 @@ function ProductDetailBidInfo({ product }) {
       <div className='right'>
         <div className='py-2'>
           <b>BID DUE DATE:</b>
-          <label className='bid-due-date ms-2'>10-22-2023 10:30</label>
+          <label className='bid-due-date ms-2'>{bidDueDate}</label>
         </div>
         <div className='py-2'>
           <b>Start Price:</b>
-          <label className='price ms-2'>{product.bidStartPrice}</label></div>
+          <label className='price ms-2'>{bidStartPrice}</label>
+        </div>
         <div className='py-2'>
           <b>Deposit:</b>
-          <label className='price ms-2'>{product.deposit}</label></div>
+          <label className='price ms-2'>{deposit}</label>
+        </div>
       </div>
     </div>
   )

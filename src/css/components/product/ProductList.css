@@ -14,6 +14,11 @@
   transform: translateX(0) translateY(-5px);
 }
 
+.pagination {  
+  margin-top: 2rem;
+  margin-left: 1.5rem;
+}
+
 .product-item {
   background-color: #FFF;
   border-radius: 20px;
@@ -35,6 +40,10 @@
 .product-item .cur-bid {
   font-weight: bold;
   font-size: 1.5rem;
+}
+
+.product-item .price::before {
+  content: '$';
 }
 
 .product-item .cur-bid::before {
