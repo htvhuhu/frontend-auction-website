@@ -1,8 +1,64 @@
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useRef, useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../services/AuthProvider';
+import bidService from '../../services/BidService';
+import DisplayMessage from '../layout/DisplayMessage';
 
-function ProductDetailCurrentBid({ currentBid, totalBids }) {
+function ProductDetailCurrentBid({ productId, currentBid, totalBids, bidStartPrice }) {
+  const { user } = useContext(AuthContext);
+  const [error, setError] = useState();
+
+  const bidPriceRef = useRef();
+
+  const handleBid = async () => {
+    const bidPrice = bidPriceRef.current.value;
+
+    const bid = {
+      "bidDate": new Date(),
+      "bidPrice": bidPrice,
+      "user": {
+        "email": user
+      },
+      "product": {
+        "id": productId
+      }
+    }
+    // validate
+    if (!validateBid(bidPrice)) return false;
+
+    // save to DB
+    const res = await bidService.saveBid(bid);
+    if (res) {
+      if (res.success) {
+
+      } else {
+        if (res.requiredDeposit) {
+          // show deposit dialog
+
+        }
+        setError(res.message);
+      }
+    } else {
+      setError('There is something wrong. Please try again.');
+    }
+  }
+
+  function validateBid(bidPrice) {
+    if (currentBid === 0 && bidPrice < bidStartPrice) {
+      setError('Your bid must be greater than start price');
+      return false;
+    }
+    if (bidPrice <= currentBid) {
+      setError('Your bid must be greater than current bid');
+      return false;
+    }
+    
+    return true;
+  }
+
   return (
     <div className='box'>
       <div className='left py-2'>
@@ -25,11 +81,15 @@ function ProductDetailCurrentBid({ currentBid, totalBids }) {
             placeholder="Bid price"
             aria-label="bidPrice"
             aria-describedby="basic-addon1"
+            ref={bidPriceRef}
           />
         </InputGroup>
-        <Button variant="primary" size="lg" className='btn-large'>
-          BID
+        <Button variant="primary" size="lg" className='btn-large' onClick={handleBid}>
+          Bid
         </Button>
+        <div className='error_container'>
+          {error && <DisplayMessage message={error} type="error" />}
+        </div>
       </div>
     </div>
   )
