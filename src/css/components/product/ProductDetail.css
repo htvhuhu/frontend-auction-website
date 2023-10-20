@@ -19,7 +19,7 @@
   margin-top: 10px;
   padding: 20px;
   display: flex;
-  justify-content:start;
+  flex: start;
   text-align: left;
   gap: 1rem;
 }
