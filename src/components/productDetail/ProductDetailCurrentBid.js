@@ -1,21 +1,47 @@
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../../services/AuthProvider';
 import bidService from '../../services/BidService';
 import DisplayMessage from '../layout/DisplayMessage';
+import Deposit from '../bid/Deposit';
+import productService from '../../services/ProductService';
 
-function ProductDetailCurrentBid({ productId, currentBid, totalBids, bidStartPrice }) {
+function ProductDetailCurrentBid({ productId, currentBid }) {
   const { user } = useContext(AuthContext);
   const [error, setError] = useState();
-
   const bidPriceRef = useRef();
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [bid, setBid] = useState({currentBid: 0, totalBids: 0, bidStartPrice: 0, deposit: 0});
+
+  async function getCurrentBid(id) {
+    const res = await productService.getCurrentBidByProductId(id);
+    if (res) {
+      if (res.success) {
+        // console.log('getCurrentBid', res);
+        setBid({...res.data});
+      } else {
+        setError(res.message);
+      }
+    } else {
+      setError('There is something wrong. Please try again.');
+    }
+  }
+
+  useEffect(() => {
+    getCurrentBid(productId);
+  }, [productId]);
 
   const handleBid = async () => {
+    setError('');
     const bidPrice = bidPriceRef.current.value;
 
+    // validate
+    if (!validateBid(bidPrice)) return false;
+
+    // save to DB
     const bid = {
       "bidDate": new Date(),
       "bidPrice": bidPrice,
@@ -26,18 +52,15 @@ function ProductDetailCurrentBid({ productId, currentBid, totalBids, bidStartPri
         "id": productId
       }
     }
-    // validate
-    if (!validateBid(bidPrice)) return false;
-
-    // save to DB
     const res = await bidService.saveBid(bid);
     if (res) {
       if (res.success) {
-
+        setError('Your bid was registered successfully');
+        getCurrentBid(productId);
       } else {
         if (res.requiredDeposit) {
           // show deposit dialog
-
+          setShowDepositModal(true);
         }
         setError(res.message);
       }
@@ -47,15 +70,23 @@ function ProductDetailCurrentBid({ productId, currentBid, totalBids, bidStartPri
   }
 
   function validateBid(bidPrice) {
-    if (currentBid === 0 && bidPrice < bidStartPrice) {
+    if (bidPrice === '' || bidPrice === 0) {
+      setError('Your bid must be greater than 0');
+      return false;
+    }
+    if (isNaN(bidPrice)) {
+      setError('Your bid must be a number');
+      return false;
+    }
+
+    if (currentBid === 0 && bidPrice < bid.bidStartPrice) {
       setError('Your bid must be greater than start price');
       return false;
     }
-    if (bidPrice <= currentBid) {
+    if (bidPrice <= bid.currentBid) {
       setError('Your bid must be greater than current bid');
       return false;
-    }
-    
+    }    
     return true;
   }
 
@@ -69,11 +100,11 @@ function ProductDetailCurrentBid({ productId, currentBid, totalBids, bidStartPri
       <div className='right'>
         <div>
           <b>CURRENT BID:</b>
-          <label className='current-bid ms-2'>{currentBid}</label>
+          <label className='current-bid ms-2'>{bid.currentBid}</label>
         </div>
         <div className='py-2'>
           <b>Total Bids:</b>
-          <label className='ms-2'>{totalBids}</label>
+          <label className='ms-2'>{bid.totalBids}</label>
         </div>
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
@@ -87,11 +118,20 @@ function ProductDetailCurrentBid({ productId, currentBid, totalBids, bidStartPri
         <Button variant="primary" size="lg" className='btn-large' onClick={handleBid}>
           Bid
         </Button>
-        <div className='error_container'>
+        <div className='text-danger mt-2'>
           {error && <DisplayMessage message={error} type="error" />}
         </div>
       </div>
+
+      {showDepositModal && <Deposit isShow={showDepositModal} 
+                                    setShowDepositModal={setShowDepositModal}
+                                    productDeposit={bid.deposit}
+                                    productId={productId}
+                                    resetStatus={setError}
+                            />}
     </div>
+
+    
   )
 }
 

@@ -4,7 +4,6 @@ import ProductDetailBidInfo from './ProductDetailBidInfo';
 import ProductDetailCurrentBid from './ProductDetailCurrentBid';
 
 function ProductDetailBid({ product }) {
-  console.log('ProductDetailBid', product);
 
   return (
     <div className='product-bid'>
@@ -22,6 +21,7 @@ function ProductDetailBid({ product }) {
             totalBids={product.totalBids}
             productId={product.id}
             bidStartPrice={product.bidStartPrice}
+            deposit={product.deposit}
           />
         </div>
       </Stack>

@@ -29,8 +29,8 @@ function RegisterUser() {
   return (
     <Form className='login' onSubmit={submitHandler}>
       <div className='box'>
-        <h1>Register</h1>
-        <div className='error_container'>
+        <h1>Register User</h1>
+        <div className='text-danger mt-2'>
           {error && <DisplayMessage message={error} type="error" />}
         </div>
         <Form.Group className="mb-3" controlId="userTypeGroup">

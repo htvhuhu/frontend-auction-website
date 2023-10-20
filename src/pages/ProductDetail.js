@@ -15,16 +15,13 @@ function ProductDetail() {
   const location = useLocation();
   const [product, setProduct] = useState();
   
-
-  console.log("location", location.state);
-
   useEffect(() => {
     async function getProduct(id) {
 
       const res = await productService.getProductDetails(id);
       if (res) {
         if (res.success) {
-          console.log('getProductDetails', res);
+          // console.log('getProductDetails', res);
           setProduct({...res.data, totalBids: res.totalBids, currentBid: res.currentBid});
         } else {
           setError(res.message);
@@ -43,7 +40,7 @@ function ProductDetail() {
 
   return (
     <>
-      <div className='error_container'>
+      <div className='text-danger p-4'>
         {error && <DisplayMessage message={error} type="error" />}
       </div>
       <Container>
