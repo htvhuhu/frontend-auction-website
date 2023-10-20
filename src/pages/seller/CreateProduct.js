@@ -3,6 +3,8 @@ import productService from '../../services/ProductService';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import ImageUpload from '../../components/layout/ImageUpload';
 import {useNavigate, useParams} from "react-router-dom";
+import { PRODUCT_STATUS } from '../../util/constant';
+
 
 const CreateProduct = () => {
     const [product, setProduct] = useState({ 
@@ -152,7 +154,7 @@ const CreateProduct = () => {
                     
                 <button 
                     type="button" 
-                    onClick={() => handleSave(false)}
+                    onClick={() => handleSave(`${PRODUCT_STATUS.DRAFT}`)}
                     style={{width:"50%"}}
                     className="btn btn-primary mr-5">
                     Save Without Release
@@ -160,7 +162,7 @@ const CreateProduct = () => {
 
                 <button 
                     type="button" 
-                    onClick={() => handleSave(true)} 
+                    onClick={() => handleSave(`${PRODUCT_STATUS.RELEASE}`)} 
                     style={{width:"50%"}}
                     className="btn btn-success">
                     Save and Release

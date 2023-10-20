@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import productService from "../../services/ProductService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/components/product/Seller.css";
+import { PRODUCT_STATUS } from "../../util/constant";
+
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -58,9 +60,9 @@ const ProductList = () => {
               <td>${product.deposit.toFixed(2)}</td>
               <td>{new Date(product.bidDueDate).toLocaleDateString()}</td>
               <td>{new Date(product.paymentDueDate).toLocaleDateString()}</td>
-              <td>{product.status ? "Released" : "Not Released"}</td>
+              <td>{product.status}</td>
               <td>
-                {!product.status && (
+                {product.status===PRODUCT_STATUS.DRAFT && (
                   <Link
                     to={`edit/${product.id}`}
                     className="btn btn-warning btn-sm mr-2"
