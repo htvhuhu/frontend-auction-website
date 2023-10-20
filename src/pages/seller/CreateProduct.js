@@ -144,7 +144,7 @@ const CreateProduct = () => {
                 
                 <div>
                     {product.images?.map((image) => (
-                        <img key={image.id} src={image.url} alt={image.name} height={100} width={100} />
+                        <img key={image.id} src={productService.getProductImage(image.name)} alt={image.name} height={100} width={100} />
                     ))}
                 </div>
 

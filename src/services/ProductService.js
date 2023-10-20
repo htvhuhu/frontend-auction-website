@@ -85,7 +85,9 @@ class ProductService {
         "Content-Type": "multipart/form-data",
       },
     });
-}
+  
+  getProductImage = (productImageName) => `http://127.0.0.1:8080/api/v1/seller/products/statics/images/${productImageName}`;
 
+}
 const productService = new ProductService();
 export default productService;
