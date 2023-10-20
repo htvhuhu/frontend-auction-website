@@ -36,7 +36,7 @@ class ProductService {
       },
     });
   
-  getProductImage = (productImageName) => `http://127.0.0.1:8080/api/v1/seller/products/statics/images/${productImageName}`;
+  getProductImage = (productImageName) => (Constant.API_BASE_URL + `/seller/products/statics/images/${productImageName}`);
 
 }
 
