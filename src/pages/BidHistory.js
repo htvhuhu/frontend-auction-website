@@ -60,7 +60,6 @@ function BidHistory() {
                                         <th>Date</th>
                                         <th>Winner</th>
                                         <th>Product Name</th>
-                                        <th>Product Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,7 +70,6 @@ function BidHistory() {
                                             <td>{new Date(bid.bidDate || bid.depositDate)?.toLocaleDateString()}</td>
                                             <td>{bid.winner ? "Yes" : "No"}</td>
                                             <td>{bid.product.name}</td>
-                                            <td>{bid.product.description}</td>
                                         </tr>
                                     ))}
                                 </tbody>
