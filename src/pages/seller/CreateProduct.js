@@ -103,6 +103,10 @@ const CreateProduct = () => {
     navigate("/seller/products");
   };
 
+  const handleClose = () => {
+    navigate("/seller/products");
+  }
+
   return (
     <div className="container mt-3 seller-product-add-container">
       <div className='box'>
@@ -235,6 +239,15 @@ const CreateProduct = () => {
           <div>
             <Container>
               <Row>
+              <Col>
+                  <button
+                    type="button"
+                    onClick={() => handleClose()}
+                    style={{ width: "100%" }}
+                    className="btn btn-secondary me-5">
+                    Cancel
+                  </button>
+                </Col>
                 <Col>
                   <button
                     type="button"
