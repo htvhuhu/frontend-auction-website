@@ -12,10 +12,10 @@ function MainNavigation() {
           <Nav.Link href="/" className='item'>HOME</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-1" className='item'>BID HISTORY</Nav.Link>
+          <Nav.Link href='/bid-history' className='item'>BID HISTORY</Nav.Link>
         </Nav.Item>
         {hasSellerRole() && <Nav.Item>
-          <Nav.Link href='/seller/products' className='item'>SELLER</Nav.Link>
+          <Nav.Link href='/seller/products' className='item'>MY PRODUCTS</Nav.Link>
         </Nav.Item>}
       </Nav>
     </div>

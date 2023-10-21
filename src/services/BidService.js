@@ -20,6 +20,15 @@ class BidService {
     }
   }
 
+  getMyBidHistory = async () => {
+    try {
+      const res = await http.get('/bids/my-history');
+      return res.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
 }
 
 const bidService = new BidService();
