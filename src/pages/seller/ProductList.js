@@ -88,7 +88,7 @@ const ProductList = () => {
               <td>{new Date(product.paymentDueDate).toISOString().substring(0,10)}</td>
               <td>{product.status}</td>
               <td>
-                {product.status===PRODUCT_STATUS.DRAFT && (
+                {(product.status===PRODUCT_STATUS.DRAFT || product.bidCount === 0) && (
                   <Link
                     to={`edit/${product.id}`}
                     className="btn btn-warning btn-sm me-2"
