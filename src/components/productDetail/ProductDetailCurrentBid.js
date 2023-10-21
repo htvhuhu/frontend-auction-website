@@ -120,6 +120,7 @@ function ProductDetailCurrentBid({ productId }) {
             aria-label="bidPrice"
             aria-describedby="basic-addon1"
             ref={bidPriceRef}
+            maxLength={10}
           />
         </InputGroup>
         <Button variant={bid.productOwner ? "secondary" : "primary"} size="lg" className='btn-large' 
