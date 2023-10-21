@@ -19,7 +19,7 @@ const CreateProduct = () => {
         'Toys & Games', 'Phones & Accessories', 'Outdoor', 'Travel & Luggage'
     ].map(category => ({ label: category, value: category }));
 
-    const { user } = useContext(AuthContext);
+    const { email } = useContext(AuthContext);
     const [product, setProduct] = useState({ 
         name: '', 
         description: '', 
@@ -32,7 +32,7 @@ const CreateProduct = () => {
         images:[],
         conditionOfSale:"",
         shippingInformation:"",
-        owner: user,
+        owner: email,
         created: new Date()
     });
     const navigate = useNavigate();
@@ -83,7 +83,7 @@ const CreateProduct = () => {
                     return;
                 }
             }
-            const newProduct = { ...product, status: release,owner:user };
+            const newProduct = { ...product, status: release,owner:email };
             console.log(newProduct);
             if(params?.id){
                 await productService.updateProduct(params.id,newProduct);

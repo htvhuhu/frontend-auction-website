@@ -8,9 +8,7 @@ function CustomerRole() {
   const outlet = useOutlet();
   const { token } = useContext(AuthContext);
 
-  // Check if the user is authenticated
   if (!token) {
-    // If not authenticated, redirect to the login page
     return <Navigate to="/login" />;
   }
 

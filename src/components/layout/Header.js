@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../services/AuthProvider';
 
 function Header() {
-  const { user } = useContext(AuthContext);
+  const { name } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -24,7 +24,7 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              Signed in as: <b>{user}</b>
+              Signed in as: <b>{name}</b>
               <Button variant="warning" className='ms-3' onClick={handleLogout}>
                 Logout
               </Button>

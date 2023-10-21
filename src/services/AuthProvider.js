@@ -7,17 +7,17 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     // console.log("token changed: ", token);
     if (token) {
       localStorage.setItem("token", token);
-      setAuthorizationHeader(token);
-
       const decodedToken = jwtDecode(token);
-      setUser(decodedToken.sub);
+      setEmail(decodedToken.sub);
+      setName(decodedToken.name)
       setRoles(decodedToken.roles);
 
     } else {
@@ -27,9 +27,9 @@ const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     setToken();
-    setUser('');
+    setName('');
+    setEmail('');
     setRoles([]);
-    setAuthorizationHeader(null);
     localStorage.removeItem("token");
   };
 
@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
   const contextValue = {
     token,
     setToken,
-    user, roles,
+    email, roles, name,
     handleLogout,
     isAuthenticated,
     hasSellerRole,

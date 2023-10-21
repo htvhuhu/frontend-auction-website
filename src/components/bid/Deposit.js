@@ -9,7 +9,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../services/AuthProvider';
 
 function Deposit({ isShow, setShowDepositModal, productDeposit, productId, resetStatus }) {
-  const { user } = useContext(AuthContext);
+  const { email } = useContext(AuthContext);
   const [error, setError] = useState();
   const amountRef = useRef();
 
@@ -27,7 +27,7 @@ function Deposit({ isShow, setShowDepositModal, productDeposit, productId, reset
       "deposit": deposit,
       "depositDate": new Date(),
       "user": {
-        "email": user
+        "email": email
       },
       "product": {
         "id": productId

@@ -24,6 +24,7 @@ function Login() {
     e.preventDefault();
     userService.login(user).then(token => {
       setToken(token);
+      setAuthorizationHeader(token);
       navigate("/", { replace: true });
     }).catch(error => {
       setError(error.message);
