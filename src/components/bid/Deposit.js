@@ -1,6 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import InputGroup from 'react-bootstrap/InputGroup';
 import { useRef, useState } from 'react';
 import bidService from '../../services/BidService';
 import DisplayMessage from '../layout/DisplayMessage';
@@ -34,7 +35,7 @@ function Deposit({ isShow, setShowDepositModal, productDeposit, productId, reset
     }
     const res = await bidService.makeDeposit(bid);
     if (res) {
-      if (res.success) {        
+      if (res.success) {
         resetStatus('Successful deposit. Now you can bid.');
         handleClose();
       } else {
@@ -71,11 +72,14 @@ function Deposit({ isShow, setShowDepositModal, productDeposit, productId, reset
         <Modal.Body>
           <Form.Group className="mb-3" controlId="controlInput1">
             <Form.Label>Amount</Form.Label>
-            <Form.Control
-              type="text"
-              autoFocus
-              ref={amountRef}
-            />
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
+              <Form.Control
+                type="text"
+                autoFocus
+                ref={amountRef}
+              />
+            </InputGroup>
             <div className='text-danger mt-2'>
               {error && <DisplayMessage message={error} type="error" />}
             </div>

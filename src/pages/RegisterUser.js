@@ -33,9 +33,9 @@ function RegisterUser() {
         <div className='text-danger mt-2'>
           {error && <DisplayMessage message={error} type="error" />}
         </div>
-        <Form.Group className="mb-3" controlId="userTypeGroup">
+        <Form.Group className="mt-4 mb-3" controlId="userTypeGroup">
           <Form.Label>User type</Form.Label>
-          <Form.Select name="userType">
+          <Form.Select name="userType" autoFocus>
             <option value="1">Customer</option>
             <option value="2">Seller</option>
           </Form.Select>
