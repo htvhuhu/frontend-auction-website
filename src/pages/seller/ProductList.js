@@ -91,7 +91,7 @@ const ProductList = () => {
                 {product.status===PRODUCT_STATUS.DRAFT && (
                   <Link
                     to={`edit/${product.id}`}
-                    className="btn btn-warning btn-sm mr-2"
+                    className="btn btn-warning btn-sm me-2"
                   >
                     Edit
                   </Link>
