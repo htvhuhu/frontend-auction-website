@@ -8,8 +8,9 @@ function SellerRole() {
   const outlet = useOutlet();
   const { hasSellerRole } = useContext(AuthContext);
 
-  if (!hasSellerRole) {
-    return <Navigate to="/login" />;
+  if (!hasSellerRole()) {
+    // If not seller, go to NotFound page
+    return <Navigate to="/404" />;
   }
 
   return (

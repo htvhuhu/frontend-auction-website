@@ -10,6 +10,8 @@ import BidHistory from './pages/BidHistory';
 import ProductList from './pages/seller/ProductList';
 import CreateProduct from './pages/seller/CreateProduct';
 import Logout from './pages/Logout';
+import NotFound from './components/layout/NotFound';
+
 
 const router = createBrowserRouter([
   {
@@ -57,9 +59,14 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
-  }, {
+  }, 
+  {
     path: '/logout',
     element: <Logout />
+  },
+  {
+    path: '/404',
+    element: <NotFound />
   }
 ]);
 
