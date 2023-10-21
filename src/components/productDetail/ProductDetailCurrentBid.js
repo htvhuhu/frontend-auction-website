@@ -10,7 +10,7 @@ import Deposit from '../bid/Deposit';
 import productService from '../../services/ProductService';
 
 function ProductDetailCurrentBid({ productId }) {
-  const { email, hasSellerRole } = useContext(AuthContext);
+  const { email } = useContext(AuthContext);
   const [error, setError] = useState();
   const bidPriceRef = useRef();
   const [showDepositModal, setShowDepositModal] = useState(false);

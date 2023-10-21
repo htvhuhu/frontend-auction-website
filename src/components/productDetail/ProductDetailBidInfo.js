@@ -11,7 +11,7 @@ function ProductDetailBidInfo({ bidDueDate, bidStartPrice, deposit }) {
       <div className='right'>
         <div className='py-2'>
           <b>BID DUE DATE:</b>
-          <label className='bid-due-date ms-2'>{bidDueDate}</label>
+          <label className='bid-due-date ms-2'>{new Date(bidDueDate).toISOString().substring(0,10)}</label>
         </div>
         <div className='py-2'>
           <b>Start Price:</b>
