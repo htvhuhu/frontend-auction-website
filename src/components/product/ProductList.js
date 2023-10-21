@@ -12,6 +12,7 @@ function ProductList() {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState('');
 
   async function fetchProducts(name, pageNumber) {
@@ -20,8 +21,11 @@ function ProductList() {
     const res = await productService.searchProduct(name, pageNumber);
     if (res) {
       if (res.success) {
+        console.log('res.data', res);
+
         setProducts(res.data);
         setTotalPages(res.totalPages);
+        setTotalElements(res.totalElements);
       } else {
         setError(res.message);
       }        
@@ -65,7 +69,8 @@ function ProductList() {
         {error && <DisplayMessage message={error} type="error" />}
       </div>
       <ProductSearch onSearch={setSearchKeyword} />
-      <div className="product-list">
+      <div className='ms-4 mb-4 text-start'>Total Products: {totalElements} </div>
+      <div className="product-list">        
         {products.map(prod => (
           <ProductItem prod={prod} key={prod.id} />
         ))}
