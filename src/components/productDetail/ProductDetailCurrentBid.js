@@ -9,18 +9,24 @@ import DisplayMessage from '../layout/DisplayMessage';
 import Deposit from '../bid/Deposit';
 import productService from '../../services/ProductService';
 
-function ProductDetailCurrentBid({ productId, currentBid }) {
+function ProductDetailCurrentBid({ productId }) {
   const { email, hasSellerRole } = useContext(AuthContext);
   const [error, setError] = useState();
   const bidPriceRef = useRef();
   const [showDepositModal, setShowDepositModal] = useState(false);
-  const [bid, setBid] = useState({currentBid: 0, totalBids: 0, bidStartPrice: 0, deposit: 0});
+  const [bid, setBid] = useState({currentBid: 0, 
+                                  totalBids: 0, 
+                                  bidStartPrice: 0, 
+                                  deposit: 0,
+                                  productOwner: false
+                                });
 
   async function getCurrentBid(id) {
     const res = await productService.getCurrentBidByProductId(id);
+
     if (res) {
       if (res.success) {
-        // console.log('getCurrentBid', res);
+        console.log('getCurrentBid', res);
         setBid({...res.data});
       } else {
         setError(res.message);
@@ -52,6 +58,7 @@ function ProductDetailCurrentBid({ productId, currentBid }) {
         "id": productId
       }
     }
+    
     const res = await bidService.saveBid(bid);
     if (res) {
       if (res.success) {
@@ -79,7 +86,7 @@ function ProductDetailCurrentBid({ productId, currentBid }) {
       return false;
     }
 
-    if (currentBid === 0 && bidPrice < bid.bidStartPrice) {
+    if (bid.currentBid === 0 && bidPrice < bid.bidStartPrice) {
       setError('Your bid must be greater than start price');
       return false;
     }
@@ -115,8 +122,8 @@ function ProductDetailCurrentBid({ productId, currentBid }) {
             ref={bidPriceRef}
           />
         </InputGroup>
-        <Button variant={hasSellerRole() ? "secondary" : "primary"} size="lg" className='btn-large' 
-                onClick={handleBid} disabled={hasSellerRole()}>
+        <Button variant={bid.productOwner ? "secondary" : "primary"} size="lg" className='btn-large' 
+                onClick={handleBid} disabled={bid.productOwner}>
           Bid
         </Button>
         <div className='text-danger mt-2'>
