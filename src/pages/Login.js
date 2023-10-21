@@ -7,7 +7,6 @@ import Form from 'react-bootstrap/Form';
 import { AuthContext } from "../services/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import userService from '../services/UserService';
-import { setAuthorizationHeader } from '../services/HttpService';
 
 function Login() {
   const { setToken } = useContext(AuthContext);
