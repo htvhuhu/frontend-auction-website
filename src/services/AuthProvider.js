@@ -19,6 +19,7 @@ const AuthProvider = ({ children }) => {
       setEmail(decodedToken.sub);
       setName(decodedToken.name)
       setRoles(decodedToken.roles);
+      setAuthorizationHeader(token);
 
     } else {
       handleLogout();
@@ -26,6 +27,7 @@ const AuthProvider = ({ children }) => {
   }, [token]);
 
   const handleLogout = () => {
+    setAuthorizationHeader(token);
     setToken();
     setName('');
     setEmail('');
