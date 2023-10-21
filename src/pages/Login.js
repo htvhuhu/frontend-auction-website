@@ -25,23 +25,21 @@ function Login() {
     userService.login(user).then(token => {
       setToken(token);
       setAuthorizationHeader(token);
-      navigate("/", { replace: true });
+      navigate("/");
     }).catch(error => {
       setError(error.message);
+      return false;
     });
-
-
-    // handle login
   }
 
   return (
-    <Form className='login' onSubmit={submitHandler}>
+    <Form className='login'>
       <div className='box'>
         <h1>Login</h1>
         <div className='text-danger mt-2'>
           {error && <DisplayMessage message={error} type="error" />}
         </div>
-        <Form.Group className="mb-3" controlId="emailGroup">
+        <Form.Group className="mb-3  mt-4" controlId="emailGroup">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="name@example.com" name='email'
             onChange={changeHandler} required value={user.email} autoFocus />
