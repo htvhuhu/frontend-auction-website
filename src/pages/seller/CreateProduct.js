@@ -161,7 +161,7 @@ const CreateProduct = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="conditionOfSale">Condition Of Sale</label>
+            <label htmlFor="conditionOfSale">Conditions Of Sale</label>
             <textarea
               id="conditionOfSale"
               name="conditionOfSale"

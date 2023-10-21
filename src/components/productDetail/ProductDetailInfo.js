@@ -12,7 +12,7 @@ function ProductDetailInfo({ product }) {
         <div className='p-2'><ProductDescription 
                                 description={product.description}
                                 conditionOfSale={product.conditionOfSale}
-                                shippingInfo={product.shippingInfo} /></div>
+                                shippingInfo={product.shippingInformation} /></div>
       </Stack>
     </>
   )

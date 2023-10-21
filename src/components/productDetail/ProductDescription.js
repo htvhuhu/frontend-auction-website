@@ -10,13 +10,13 @@ function ProductDescription({ description, conditionOfSale, shippingInfo }) {
       fill
       variant='tabs'
     >
-      <Tab eventKey="description" title="Overview">
+      <Tab eventKey="description" title="Overview" className='text-start'>
         {description}
       </Tab>
-      <Tab eventKey="sale-condition" title="Conditions of Sale">
+      <Tab eventKey="sale-condition" title="Conditions of Sale" className='text-start'>
         {conditionOfSale}
       </Tab>
-      <Tab eventKey="shipping" title="Shipping & Redemption">
+      <Tab eventKey="shipping" title="Shipping & Redemption" className='text-start'>
         {shippingInfo}
       </Tab>
     </Tabs>
