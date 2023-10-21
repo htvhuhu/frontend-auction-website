@@ -1,12 +1,15 @@
 import DisplayMessage from '../components/layout/DisplayMessage';
 import "../css/pages/Login.css";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Footer from '../components/layout/Footer';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import userService from '../services/UserService';
+import { AuthContext } from '../services/AuthProvider';
 
 function RegisterUser() {
+  const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [user, setUser] = useState({ email: '', licenseNo: '', password: '', confirmPassword: '' });
@@ -17,9 +20,18 @@ function RegisterUser() {
 
   function submitHandler(e) {
     e.preventDefault();
-    alert("fffff")
 
-    // handle register
+    if (user.confirmPassword !== user.password) {
+      setError('Password and confirm password do not match');
+      return;
+    }
+
+    userService.register(user).then(token => {
+      setToken(token);
+      navigate("/", { replace: true });
+    }).catch(error => {
+      setError(error.message);
+    });
   }
 
   function cancelHandler() {
