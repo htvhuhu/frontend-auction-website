@@ -43,7 +43,7 @@ function Login() {
         <Form.Group className="mb-3" controlId="emailGroup">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="name@example.com" name='email'
-            onChange={changeHandler} required value={user.email} />
+            onChange={changeHandler} required value={user.email} autoFocus />
         </Form.Group>
         <Form.Group className="mb-3" controlId="passwordGroup">
           <Form.Label>Password</Form.Label>
