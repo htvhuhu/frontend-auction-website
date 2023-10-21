@@ -7,12 +7,13 @@ import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import userService from '../services/UserService';
 import { AuthContext } from '../services/AuthProvider';
+import { setAuthorizationHeader } from '../services/HttpService';
 
 function RegisterUser() {
   const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState();
-  const [user, setUser] = useState({ email: '', licenseNo: '', password: '', confirmPassword: '' });
+  const [user, setUser] = useState({ userType: 'ROLE_CUSTOMER', email: '', name: '', licenseNo: '', password: '', confirmPassword: '' });
 
   function changeHandler(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -27,7 +28,8 @@ function RegisterUser() {
     }
 
     userService.register(user).then(token => {
-      setToken(token);
+      setToken(token); // let user login after registration
+      setAuthorizationHeader(token);
       navigate("/", { replace: true });
     }).catch(error => {
       setError(error.message);
@@ -47,15 +49,20 @@ function RegisterUser() {
         </div>
         <Form.Group className="mt-4 mb-3" controlId="userTypeGroup">
           <Form.Label>User type</Form.Label>
-          <Form.Select name="userType" autoFocus>
-            <option value="1">Customer</option>
-            <option value="2">Seller</option>
+          <Form.Select value={user.userType} onChange={changeHandler} name="userType" autoFocus>
+            <option value="ROLE_CUSTOMER">Customer</option>
+            <option value="ROLER_SELLER">Seller</option>
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3" controlId="emailGroup">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" name='email'
             onChange={changeHandler} required value={user.email} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="nameGroup">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" name='name'
+            onChange={changeHandler} required value={user.name} />
         </Form.Group>
         <Form.Group className="mb-3" controlId="licenseGroup">
           <Form.Label>License number</Form.Label>
