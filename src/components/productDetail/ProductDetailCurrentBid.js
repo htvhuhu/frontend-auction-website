@@ -10,7 +10,7 @@ import Deposit from '../bid/Deposit';
 import productService from '../../services/ProductService';
 
 function ProductDetailCurrentBid({ productId, currentBid }) {
-  const { user } = useContext(AuthContext);
+  const { user, hasSellerRole } = useContext(AuthContext);
   const [error, setError] = useState();
   const bidPriceRef = useRef();
   const [showDepositModal, setShowDepositModal] = useState(false);
@@ -115,7 +115,8 @@ function ProductDetailCurrentBid({ productId, currentBid }) {
             ref={bidPriceRef}
           />
         </InputGroup>
-        <Button variant="primary" size="lg" className='btn-large' onClick={handleBid}>
+        <Button variant={hasSellerRole() ? "secondary" : "primary"} size="lg" className='btn-large' 
+                onClick={handleBid} disabled={hasSellerRole()}>
           Bid
         </Button>
         <div className='text-danger mt-2'>

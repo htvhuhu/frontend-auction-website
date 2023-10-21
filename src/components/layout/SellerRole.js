@@ -6,12 +6,16 @@ import { AuthContext } from '../../services/AuthProvider';
 
 function SellerRole() {
   const outlet = useOutlet();
-  const { token } = useContext(AuthContext);
+  const { token, hasSellerRole } = useContext(AuthContext);
 
   // Check if the user is authenticated
   if (!token) {
     // If not authenticated, redirect to the login page
     return <Navigate to="/login" />;
+  }
+  if (!hasSellerRole()) {
+    // If not seller, go to NotFound page
+    return <Navigate to="/404" />;
   }
 
   return (
