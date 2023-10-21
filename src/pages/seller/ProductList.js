@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import productService from "../../services/ProductService";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../css/components/product/Seller.css";
+import '../../css/pages/Seller.css';
 import { PRODUCT_STATUS } from "../../util/constant";
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
