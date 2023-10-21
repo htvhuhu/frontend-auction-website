@@ -4,7 +4,7 @@ import productService from '../../services/ProductService';
 
 function ProductImages({ images }) {
   return (
-    <Carousel data-bs-theme="dark">
+    <Carousel data-bs-theme="dark" style={{minHeight:"367px"}}>
       {images.map((image, index) => (
         <Carousel.Item key={index}>
           <img

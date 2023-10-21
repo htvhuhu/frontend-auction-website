@@ -78,6 +78,7 @@ function Deposit({ isShow, setShowDepositModal, productDeposit, productId, reset
                 type="text"
                 autoFocus
                 ref={amountRef}
+                maxLength={10}
               />
             </InputGroup>
             <div className='text-danger mt-2'>
