@@ -5,6 +5,8 @@ import productService from '../../services/ProductService';
 function ProductItem({ prod }) {
   const navigate = useNavigate();
 
+  console.log('product===', prod);
+  
   function goToProductDetail() {
     navigate("/product/detail", {state: prod.id});
   }
@@ -26,7 +28,7 @@ function ProductItem({ prod }) {
               </div>
               <div>
                 <b>Bid Due Date:</b>
-                <label className='ms-2'>{new Date(prod.bidDueDate).toLocaleDateString()}</label>
+                <label className='ms-2'>{new Date(prod.bidDueDate).toISOString().substring(0,10)}</label>
               </div>              
               <div className='py-2'>
                 <b>Starting Price:</b>

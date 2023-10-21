@@ -85,8 +85,8 @@ const ProductList = () => {
               {/* <td>{product.categories}</td> */}
               <td>${product.bidStartPrice?.toFixed(2)}</td>
               <td>${product.deposit?.toFixed(2)}</td>
-              <td>{new Date(product.bidDueDate).toLocaleDateString()}</td>
-              <td>{new Date(product.paymentDueDate).toLocaleDateString()}</td>
+              <td>{new Date(product.bidDueDate).toISOString().substring(0,10)}</td>
+              <td>{new Date(product.paymentDueDate).toISOString().substring(0,10)}</td>
               <td>{product.status}</td>
               <td>
                 {product.status===PRODUCT_STATUS.DRAFT && (

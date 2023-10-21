@@ -49,7 +49,7 @@ const CreateProduct = () => {
                 setProduct(response.data);
             })();
         }
-    },[])
+    },[params.id])
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
