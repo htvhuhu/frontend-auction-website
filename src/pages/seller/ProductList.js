@@ -59,7 +59,7 @@ const ProductList = () => {
             <th>ID</th>
             <th>Name</th>
             <th>Thumbnail</th>
-            <th>Bid Count</th>
+            <th>Total Bid</th>
             <th>Starting Price</th>
             <th>Deposit</th>
             <th>Bid Due</th>
@@ -81,7 +81,7 @@ const ProductList = () => {
                 />
               </td>
               {/* <td>{product.description}</td> */}
-              <td>{product.bidCount}</td>
+              <td>{product.bidCount - 1 > 0 ? product.bidCount - 1 : 0 }</td>
               <td>${product.bidStartPrice?.toFixed(2)}</td>
               <td>${product.deposit?.toFixed(2)}</td>
               <td>{new Date(product.bidDueDate).toISOString().substring(0,10)}</td>
