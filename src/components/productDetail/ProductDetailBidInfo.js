@@ -1,7 +1,8 @@
+import { formatDate } from "../../util/dateTimeUtil";
 
-function ProductDetailBidInfo({ product }) {
+function ProductDetailBidInfo({ bidDueDate, bidStartPrice, deposit }) {
   return (
-    <div className='box'>
+    <div className='box due-bid'>
       <div className='left py-2'>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clock" viewBox="0 0 16 16">
           <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
@@ -11,14 +12,16 @@ function ProductDetailBidInfo({ product }) {
       <div className='right'>
         <div className='py-2'>
           <b>BID DUE DATE:</b>
-          <label className='bid-due-date ms-2'>10-22-2023 10:30</label>
+          <label className='bid-due-date ms-2'>{formatDate(bidDueDate)}</label>
         </div>
         <div className='py-2'>
           <b>Start Price:</b>
-          <label className='price ms-2'>{product.bidStartPrice}</label></div>
+          <label className='price ms-2'>{bidStartPrice}</label>
+        </div>
         <div className='py-2'>
           <b>Deposit:</b>
-          <label className='price ms-2'>{product.deposit}</label></div>
+          <label className='price ms-2'>{deposit}</label>
+        </div>
       </div>
     </div>
   )

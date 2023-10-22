@@ -5,6 +5,7 @@
 
 .product-detail-info .image {
   height: 367px;
+  min-height: 367px;
 }
 
 .product-detail-info .image-caption {
@@ -15,13 +16,17 @@
 
 .product-bid .box {
   border: 1px solid #d5d9dd;
-  box-shadow: 0 0 30px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
   margin-top: 10px;
   padding: 20px;
   display: flex;
-  justify-content:start;
+  flex: start;
   text-align: left;
   gap: 1rem;
+}
+
+.product-bid .due-bid {
+  border: 1px solid #dd4b08;
 }
 
 .product-bid .price::before {

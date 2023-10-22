@@ -1,80 +1,50 @@
-import axios from 'axios';
+import http from './HttpService';
 import Constant from '../util/constant';
 
 class ProductService {
 
-  async getActiveProducts(pageNumber) {
+  searchProduct = async (name, pageNumber) => {
     try {
-      const res = await axios.get(`/products?pageNumber=${pageNumber}&pageSize=${Constant.PRODUCT_PAGE_SIZE}`);
+      const searchRequest = {name, pageNumber, pageSize: Constant.PRODUCT_PAGE_SIZE};
+      const res = await http.post('/products/search', searchRequest);
       return res.data;
-    } catch (err) {
+    } catch (error) {
       return null;
     }
   }
 
-  getProducts() {
-    let products = [];
-    products.push({
-      id: 1,
-      name: 'iPhone 15 Pro Max',
-      bidStartPrice: 800,
-      deposit: 50,
-      bidDueDate: '10/22/2023',
-      images: ['/logo192.png']
-    });
-    products.push({
-      id: 2,
-      name: 'iPhone 15 Pro',
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: '10/20/2023',
-      images: ['/logo192.png']
-    });
-    products.push({
-      id: 3,
-      name: 'Apple iPhone 14 Pro Max 128GB',
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: '10/20/2023',
-      images: ['/logo192.png']
-    });
-    products.push({
-      id: 4,
-      name: 'Apple iPhone 14 Pro Max 128GB',
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: '10/20/2023',
-      images: ['/logo192.png']
-    });
-    products.push({
-      id: 5,
-      name: 'Apple iPhone 14 Pro Max 128GB',
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: '10/20/2023',
-      images: ['/logo192.png']
-    });
-    products.push({
-      id: 6,
-      name: 'Apple iPhone 14 Pro Max 128GB Apple iPhone 14 Pro Max 128GB',
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: '10/20/2023',
-      images: ['/logo192.png']
-    });
-    return products;
+  getProductDetails = async (id) => {
+    try {
+      const res = await http.get(`/products/${id}`);
+      return res.data;
+    } catch (error) {
+      return null;
+    }
   }
 
-  getProductDetails(productId) {
-    return {
-      id: 6,
-      name: 'Apple iPhone 14 Pro Max 128GB Apple iPhone 14 Pro Max 128GB',
-      bidStartPrice: 600,
-      deposit: 50,
-      bidDueDate: '10/20/2023',
-      images: ['/original (2).jpeg', '/original (1).jpeg', '/original.jpeg']
-    };
+  getCurrentBidByProductId = async (id) => {
+    try {
+      const res = await http.get(`/products/${id}/bid`);
+      return res.data;
+    } catch (error) {
+      return null;
+    }
   }
+  
+  getProductsBySeller = () => http.get("/seller/products");
+  getProductsById = (id) => http.get(`/seller/products/${id}`);
+  addProduct = (product) => http.post("/seller/products", product);
+  updateProduct = (id, product) => http.put(`/seller/products/${id}`, product);
+  deleteProduct = (id) => http.delete(`/seller/products/${id}`);
+
+  uploadProductImages = (images) =>
+    http.post("/seller/products/images", images, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  
+  getProductImage = (productImageName) => (Constant.API_BASE_URL + `/seller/products/statics/images/${productImageName}`);
 
 }
 

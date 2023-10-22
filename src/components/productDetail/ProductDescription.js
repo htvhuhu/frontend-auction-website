@@ -1,23 +1,23 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-function ProductDescription({ product }) {
+function ProductDescription({ description, conditionOfSale, shippingInfo }) {
   return (
     <Tabs
-      defaultActiveKey="overview"
+      defaultActiveKey="description"
       id="fill-tab"
       className="mb-3"
       fill
       variant='tabs'
     >
-      <Tab eventKey="overview" title="Overview">
-        Tab content for Home
+      <Tab eventKey="description" title="Overview" className='text-start'>
+        {description}
       </Tab>
-      <Tab eventKey="sale-condition" title="Conditions of Sale">
-        Tab content for Profile
+      <Tab eventKey="sale-condition" title="Conditions of Sale" className='text-start'>
+        {conditionOfSale}
       </Tab>
-      <Tab eventKey="shipping" title="Shipping & Redemption">
-        Tab content for Loooonger Tab
+      <Tab eventKey="shipping" title="Shipping & Redemption" className='text-start'>
+        {shippingInfo}
       </Tab>
     </Tabs>
   )

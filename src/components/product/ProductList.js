@@ -1,5 +1,5 @@
 import '../../css/components/product/ProductList.css';
-import ProductService from '../../services/ProductService';
+import productService from '../../services/ProductService';
 import { useEffect, useState } from 'react';
 import ProductItem from './ProductItem';
 import ProductSearch from './ProductSearch';
@@ -12,25 +12,33 @@ function ProductList() {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-  async function getActiveProducts(pageNumber) {
+  async function fetchProducts(name, pageNumber) {
     setIsLoading(true);
 
-    const res = await ProductService.getActiveProducts(pageNumber);
+    const res = await productService.searchProduct(name, pageNumber);
     if (res) {
-      setProducts([...res.content]);
-      setTotalPages(res.totalPages);
+      if (res.success) {
+        console.log('res.data', res);
+
+        setProducts(res.data);
+        setTotalPages(res.totalPages);
+        setTotalElements(res.totalElements);
+      } else {
+        setError(res.message);
+      }        
     } else {
       setError('There is something wrong. Please try again.');
     }
+
     setIsLoading(false);
   }
 
   useEffect(() => {
-    getActiveProducts(pageNumber);
-
-  }, [pageNumber]);
-
+    fetchProducts(searchKeyword, pageNumber);    
+  }, [pageNumber, searchKeyword]);
   if (isLoading) {
     return (
       <section><p>Loading...</p></section>
@@ -43,7 +51,7 @@ function ProductList() {
       items.push(
         <Pagination.Item key={page} active={page === pageNumber} onClick={() => paging(page)}>
           {page}
-        </Pagination.Item>,
+        </Pagination.Item>
       );
     }
     return items;
@@ -51,16 +59,17 @@ function ProductList() {
 
   function paging(pageNo) {
     setPageNumber(pageNo);
-    getActiveProducts(pageNo);
+    fetchProducts(searchKeyword, pageNo);
   }
 
   return (
     <>
-      <div className='error_container'>
+      <div className='text-danger mt-2'>
         {error && <DisplayMessage message={error} type="error" />}
       </div>
-      <ProductSearch />
-      <div className="product-list">
+      <ProductSearch onSearch={setSearchKeyword} />
+      <div className='ms-4 mb-4 text-start'>Total Products: {totalElements} </div>
+      <div className="product-list">        
         {products.map(prod => (
           <ProductItem prod={prod} key={prod.id} />
         ))}

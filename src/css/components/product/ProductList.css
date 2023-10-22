@@ -42,12 +42,20 @@
   font-size: 1.5rem;
 }
 
+.product-item .price::before {
+  content: '$';
+}
+
 .product-item .cur-bid::before {
   content: '$';
 }
 
+.product-item .image {
+  min-height: 200px;
+  max-height: 200px;
+}
+
 .product-search {
-  padding: 2rem;
   width: 60%;
   margin: auto;
 }

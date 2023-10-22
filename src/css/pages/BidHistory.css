@@ -1,0 +1,51 @@
+.swagger-btn {
+    color: #333;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: left !important;
+    width: 100%;
+    text-decoration: none;
+}
+
+.bid-history.btn{
+    text-align: left !important;
+}
+
+.swagger-btn:hover,
+.swagger-btn:focus {
+    color: #333;
+    background-color: #e8e8e8;
+    border-color: #adadad;
+}
+
+.swagger-btn[aria-expanded="true"] {
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+    text-align: left !important;
+}
+
+.collapse-container {
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 10px;
+}
+
+
+.bid-history .history-deposit {
+    border-color: #49cc90;
+    background-color: rgba(73,204,144,.2)  !important;
+}
+
+.bid-history .history-bid {
+    background-color: rgba(97,175,254,.2)  !important;
+    border-color: #61affe;
+}
+
+.bid-history .history-winner {
+    background-color: rgba(252,161,48,.5)  !important;
+    border-color: #fca130;
+}

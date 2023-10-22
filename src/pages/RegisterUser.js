@@ -1,15 +1,19 @@
 import DisplayMessage from '../components/layout/DisplayMessage';
 import "../css/pages/Login.css";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Footer from '../components/layout/Footer';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import userService from '../services/UserService';
+import { AuthContext } from '../services/AuthProvider';
+import { setAuthorizationHeader } from '../services/HttpService';
 
 function RegisterUser() {
+  const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState();
-  const [user, setUser] = useState({ email: '', licenseNo: '', password: '', confirmPassword: '' });
+  const [user, setUser] = useState({ userType: 'ROLE_CUSTOMER', email: '', name: '', licenseNo: '', password: '', confirmPassword: '' });
 
   function changeHandler(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -17,9 +21,19 @@ function RegisterUser() {
 
   function submitHandler(e) {
     e.preventDefault();
-    alert("fffff")
 
-    // handle register
+    if (user.confirmPassword !== user.password) {
+      setError('Password and confirm password do not match');
+      return;
+    }
+
+    userService.register(user).then(token => {
+      setToken(token); // let user login after registration
+      setAuthorizationHeader(token);
+      navigate("/", { replace: true });
+    }).catch(error => {
+      setError(error.message);
+    });
   }
 
   function cancelHandler() {
@@ -29,21 +43,26 @@ function RegisterUser() {
   return (
     <Form className='login' onSubmit={submitHandler}>
       <div className='box'>
-        <h1>Register</h1>
-        <div className='error_container'>
+        <h1>Register User</h1>
+        <div className='text-danger mt-2'>
           {error && <DisplayMessage message={error} type="error" />}
         </div>
-        <Form.Group className="mb-3" controlId="userTypeGroup">
+        <Form.Group className="mt-4 mb-3" controlId="userTypeGroup">
           <Form.Label>User type</Form.Label>
-          <Form.Select name="userType">
-            <option value="1">Customer</option>
-            <option value="2">Seller</option>
+          <Form.Select value={user.userType} onChange={changeHandler} name="userType" autoFocus>
+            <option value="ROLE_CUSTOMER">Customer</option>
+            <option value="ROLER_SELLER">Seller</option>
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3" controlId="emailGroup">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" name='email'
             onChange={changeHandler} required value={user.email} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="nameGroup">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" name='name'
+            onChange={changeHandler} required value={user.name} />
         </Form.Group>
         <Form.Group className="mb-3" controlId="licenseGroup">
           <Form.Label>License number</Form.Label>

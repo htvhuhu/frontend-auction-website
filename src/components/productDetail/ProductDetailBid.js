@@ -4,14 +4,19 @@ import ProductDetailBidInfo from './ProductDetailBidInfo';
 import ProductDetailCurrentBid from './ProductDetailCurrentBid';
 
 function ProductDetailBid({ product }) {
+
   return (
     <div className='product-bid'>
       <Stack gap={3}>
         <div className="p-2">
-          <ProductDetailBidInfo product={product} />
+          <ProductDetailBidInfo
+            bidDueDate={product.bidDueDate}
+            bidStartPrice={product.bidStartPrice}
+            deposit={product.deposit}
+          />
         </div>
         <div className="p-2">
-          <ProductDetailCurrentBid product={product} />
+          <ProductDetailCurrentBid productId={product.id} />
         </div>
       </Stack>
     </div>

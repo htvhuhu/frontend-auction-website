@@ -7,9 +7,12 @@ function ProductDetailInfo({ product }) {
   return (
     <>
       <Stack gap={3} className='product-detail-info'>
-        <div className="p-2 prod-title">{product.name}</div>
+        <div className="p-2 prod-title">#{product.id} {product.name}</div>
         <div className="p-2"><ProductImages images={product.images} /></div>
-        <div className='p-2'><ProductDescription /></div>
+        <div className='p-2'><ProductDescription 
+                                description={product.description}
+                                conditionOfSale={product.conditionOfSale}
+                                shippingInfo={product.shippingInformation} /></div>
       </Stack>
     </>
   )

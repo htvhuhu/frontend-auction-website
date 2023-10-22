@@ -5,68 +5,68 @@ import Error from './components/layout/Error';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
-import ForgotPassword from './pages/ForgotPassword';
-import VerifyCode from './pages/VerifyCode';
 import RegisterUser from './pages/RegisterUser';
 import BidHistory from './pages/BidHistory';
 import ProductList from './pages/seller/ProductList';
 import CreateProduct from './pages/seller/CreateProduct';
-import MonthlyReport from './pages/seller/MonthlyReport';
+import Logout from './pages/Logout';
+import NotFound from './components/layout/NotFound';
+
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <CustomerRole/>,
-    errorElement: <Error/>,
+    element: <CustomerRole />,
+    errorElement: <Error />,
     children: [
       {
         path: '',
-        element: <Home/>
+        element: <Home />
       },
       {
         path: 'product/detail',
-        element: <ProductDetail/>
+        element: <ProductDetail />
       },
       {
         path: 'bid-history',
-        element: <BidHistory/>
+        element: <BidHistory />
       }
     ]
   },
   {
     path: '/seller/',
-    element: <SellerRole/>,
-    errorElement: <Error/>,
+    element: <SellerRole />,
+    errorElement: <Error />,
     children: [
       {
         path: 'products',
-        element: <ProductList/>
+        element: <ProductList />
       },
       {
         path: 'products/add',
-        element: <CreateProduct/>
+        element: <CreateProduct />
       },
       {
-        path: 'products/report',
-        element: <MonthlyReport/>
+        path: 'products/edit/:id',
+        element: <CreateProduct />
       }
     ]
   },
   {
     path: '/register',
-    element: <RegisterUser/>
+    element: <RegisterUser />
   },
   {
     path: '/login',
-    element: <Login/>
+    element: <Login />
+  }, 
+  {
+    path: '/logout',
+    element: <Logout />
   },
   {
-    path: '/forgot',
-    element: <ForgotPassword/>
-  },
-  {
-    path: '/verify',
-    element: <VerifyCode/>
+    path: '/404',
+    element: <NotFound />
   }
 ]);
 
