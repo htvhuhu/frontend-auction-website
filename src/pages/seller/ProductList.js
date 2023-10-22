@@ -5,6 +5,8 @@ import '../../css/pages/Seller.css';
 import { PRODUCT_STATUS } from "../../util/constant";
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { formatDate } from "../../util/dateTimeUtil";
+
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -84,21 +86,21 @@ const ProductList = () => {
               <td>{product.bidCount - 1 > 0 ? product.bidCount - 1 : 0 }</td>
               <td>${product.bidStartPrice?.toFixed(2)}</td>
               <td>${product.deposit?.toFixed(2)}</td>
-              <td>{new Date(product.bidDueDate).toISOString().substring(0,10)}</td>
-              <td>{new Date(product.paymentDueDate).toISOString().substring(0,10)}</td>
+              <td>{formatDate(product.bidDueDate)}</td>
+              <td>{formatDate(product.paymentDueDate)}</td>
               <td>{product.status}</td>
               <td>
                 {(product.status===PRODUCT_STATUS.DRAFT || product.bidCount === 0) && (
                   <Link
                     to={`edit/${product.id}`}
-                    className="btn btn-warning btn-sm me-2"
+                    className="btn btn-warning btn-sm me-2 mb-2 w-100"
                   >
                     Edit
                   </Link>
                 )}
                 <button
                   onClick={() => handleShow(product.id)}
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-danger btn-sm w-100"
                 >
                   Delete
                 </button>

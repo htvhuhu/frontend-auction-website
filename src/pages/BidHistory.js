@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import bidService from '../services/BidService';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import "../css/pages/BidHistory.css";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
+import { formatDate } from '../util/dateTimeUtil';
 
 
 function BidHistory() {
@@ -57,7 +55,7 @@ function BidHistory() {
                                     <tr>
                                         <th>Type</th>
                                         <th>Value</th>
-                                        <th>Date</th>
+                                        <th>Bid Date</th>
                                         <th>Winner</th>
                                         <th>Product Name</th>
                                     </tr>
@@ -67,7 +65,7 @@ function BidHistory() {
                                         <tr key={bid.id} className={`${bid.deposit === 0 ? "history-bid" : "history-deposit"} ${bid.winner ? "history-winner" : ""}`}>
                                             <td>{bid.deposit === 0 ? "Bid" : "Deposit"}</td>
                                             <td>${bid.deposit === 0 ? bid.bidPrice : bid.deposit}</td>
-                                            <td>{new Date(bid.bidDate || bid.depositDate)?.toLocaleDateString()}</td>
+                                            <td>{formatDate(bid.bidDate || bid.depositDate)}</td>
                                             <td>{bid.winner ? "Yes" : "No"}</td>
                                             <td>{bid.product.name}</td>
                                         </tr>

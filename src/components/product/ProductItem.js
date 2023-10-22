@@ -1,6 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import productService from '../../services/ProductService';
+import { formatDate } from '../../util/dateTimeUtil';
 
 function ProductItem({ prod }) {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function ProductItem({ prod }) {
               </div>
               <div>
                 <b>Bid Due Date:</b>
-                <label className='ms-2'>{new Date(prod.bidDueDate).toISOString().substring(0,10)}</label>
+                <label className='ms-2'>{formatDate(prod.bidDueDate)}</label>
               </div>              
               <div className='py-2'>
                 <b>Starting Price:</b>
